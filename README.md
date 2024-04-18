@@ -15,4 +15,8 @@ To start the streamlit UI - run the follwing command:
 python -m streamlit run app.py --server.port 8080
 ```
 
+<<<<<<< HEAD
 ##
+=======
+#
+>>>>>>> 3cc78e1ed3a35749c80a65369e8df718c0920977
