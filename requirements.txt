@@ -1,0 +1,14 @@
+streamlit
+streamlit_extras
+google-cloud-aiplatform
+python-dotenv
+google-generativeai
+joblib
+
+langchain-core
+langsmith
+langchain-google-vertexai
+prompt_toolkit
+langchain
+google-cloud-discoveryengine
+langchain_google_community

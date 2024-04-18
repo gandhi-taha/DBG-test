@@ -1,0 +1,5 @@
+Question: {question}
+
+Rewrite the follwing answer. Keep the citations the same.
+{context}
+

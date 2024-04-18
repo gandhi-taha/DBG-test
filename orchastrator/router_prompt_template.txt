@@ -1,0 +1,10 @@
+Given the user question below, classify it as either being about:
+{routes_str}
+
+Do not respond with more than one word.
+
+<question>
+{question}
+</question>
+
+Classification:
