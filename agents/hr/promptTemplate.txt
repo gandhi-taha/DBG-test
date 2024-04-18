@@ -1,5 +1,6 @@
-Question: {question}
+Format the the following text as to a markdown: 
+"{answer}"
 
-Rewrite the follwing answer. Keep the citations the same.
-{context}
 
+don't use code block and do not start with "```" and start with an headline of ##.
+Do not add any reference link but keep the reference nubmers, like [1] in the text as given. format the input text exactly as it is
