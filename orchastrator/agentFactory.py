@@ -17,7 +17,7 @@ class AgentFactory():
     prompt_infos = [
         {
             'name': 'Human Resource',
-            'description': 'Responsible for questions about Human Resource, Employee management and data.',
+            'description': 'Responsible for questions about Human Resource, Employee management, Expenses, Holidays, employment policies and other People ops related stuff.',
             'prompt_template': other_template,
             'agent': HRAgent()
         },
@@ -25,6 +25,11 @@ class AgentFactory():
             'name': 'python programmer',
             'description': 'Good for questions about coding and algorithms',
             'prompt_template': developer_template
+        },
+        {
+            'name': 'Joke',
+            'description': 'Responsible for providing jokes.',
+            'prompt_template': other_template
         },
         {
             'name': 'other',

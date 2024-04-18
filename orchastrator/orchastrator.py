@@ -16,14 +16,14 @@ from orchastrator.agentFactory import AgentFactory
 with open(os.path.join(os.path.dirname(__file__), "router_prompt_template.txt"), "r") as f:
     router_prompt = PromptTemplate.from_template(f.read())
 
-def format_routes(input_list):
+def format_routes(agent_descriptions):
     """
     Formats the input list into a string.
     :param input_list: The list of routes to format.
     :return: The formatted string.
     """
-    formatted_items = ["`" + item + "`" for item in input_list]
-    output_string = ", ".join(formatted_items[:-1]) + ", or " + formatted_items[-1]
+    output_string = "\n * ".join(agent_descriptions)
+    print(output_string)
     return output_string
 
 def generate_router_chain(llm):
@@ -34,9 +34,11 @@ def generate_router_chain(llm):
     
     prompt_factory = AgentFactory()
     destination_chains = {}
+    agent_descriptions = []
     
     for e in prompt_factory.prompt_infos:
         name = e["name"]
+        agent_descriptions.append(e["name"]+": "+e["description"])
         if "agent" in e:
             # TODO Remote runable
             destination_chains[name]= e['agent'].chain
@@ -44,9 +46,8 @@ def generate_router_chain(llm):
             p_template = PromptTemplate.from_template(e["prompt_template"])
             destination_chains[name]= (p_template | VertexAI(model_name="gemini-pro", temperature=1))
     
-    route_list = list(destination_chains)
 
-    router_chain = (router_prompt.partial(routes_str=format_routes(route_list)) | llm | StrOutputParser())
+    router_chain = (router_prompt.partial(routes_str=format_routes(agent_descriptions)) | llm | StrOutputParser())
     # TODO: greedy search for parsing intent, prevent formating errors 
     
     return {"topic": router_chain, "question": lambda x: x["question"]} | RunnableLambda(lambda x: destination_chains[x["topic"]])    
