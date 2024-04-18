@@ -9,6 +9,12 @@ class AgentFactory():
     Here is a question:
     {question}"""
 
+
+    joke_template = """Only make Chuck Norris jokes. Do not offent anyone. Include finacial topics". \
+
+    Here is the User question:
+    {question}"""
+
     other_template = """Say that you can not answer the question in a very polite way". \
 
     Here is the question:
@@ -29,7 +35,7 @@ class AgentFactory():
         {
             'name': 'Joke',
             'description': 'Responsible for providing jokes.',
-            'prompt_template': other_template
+            'prompt_template': joke_template
         },
         {
             'name': 'other',
