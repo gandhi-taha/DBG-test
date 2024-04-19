@@ -1,13 +1,17 @@
-from agents.hr.HRAgent import HRAgent
-from doc_summary import multiturn_generate_content
-from orchastrator.orchastrator import Orchastrator
 import streamlit as st
-from random import randint
-import time
+from streamlit_lottie import st_lottie
 from streamlit_extras.stylable_container import stylable_container
-# UI Streamlit page
-st.set_page_config(layout='wide', page_title="Natina-AI",
-                   page_icon="DBG-Logo.png")
+import os
+import random
+import time
+from dotenv import load_dotenv
+import google.generativeai as genai
+import joblib
+from typing import Literal
+from dataclasses import dataclass
+import json
+
+st.set_page_config(layout='wide', page_title="Natina-AI", page_icon="DBG-Logo.png")
 # custom_html = """
 # <div class="banner">
 # <img src="https://upload.wikimedia.org/wikipedia/de/thumb/8/87/Deutsche_B%C3%B6rse_Group_Logo.svg/1280px-Deutsche_B%C3%B6rse_Group_Logo.svg.png" alt = "Banner Image">
@@ -26,6 +30,15 @@ st.set_page_config(layout='wide', page_title="Natina-AI",
 # """
 # Displaying the banner
 # st.components.v1.html(custom_html)
+def load_lottiefile(filepath: str):
+
+	'''Load lottie animation file'''
+
+	with open(filepath, "r") as f:
+		return json.load(f)
+
+st_lottie(load_lottiefile("images/Nationa-Ai.json"), speed=1, reverse=False, loop=True, quality="high", height=300)
+
 
 def response_generator():
     new_docs = []
@@ -49,23 +62,29 @@ def response_generator():
             time.sleep(0.05)
 
 
-# Sidebar content Top
+# Sidebar content 
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
-st.sidebar.header("DBGenAI")
+st.sidebar.header("DBGenAI - Platform")
 sideb = st.sidebar
-Text1 = sideb.write("-------")
-# button1 = sideb.button(" :heavy_plus_sign:  New Chat")
-# Upload_button = sideb.button(" :file_folder: Upload file")
-# st.sidebar.subheader("Recent")
-# Text2 = sideb.write(":speech_balloon: Page1")
-# Text3 = sideb.write(":speech_balloon: Page2")
-# Text4 = sideb.write(":speech_balloon: Page3")
-# Text5 = sideb.write("...")
-# Sidebar content Bottom
+Bar1 = sideb.write("-------")
+button1 = sideb.button(" 📁  HR-Bot")
+button2 = sideb.button(" 💻  IT-Bot")
+button3 = sideb.button(" 📈  Finance-Bot")
+Bar2 = sideb.write("-------")
+Text1 = sideb.write(
+	"""
+	#### Natina is currently supporting HR & IT Operations Regulations and Finance Reports.
+	"""
+)
+Bar2 = sideb.write("-------")
+Text2 = sideb.write(
+	"""
+		Copyright © 2024 Deutsche Börse Group - All Rights Reserved.
+	"""
+)
 
 # Main content
 st.title("Natina-AI")
-st.write("Conversation Title")
 
 # Initialize File Uploader
 if "files" not in st.session_state:

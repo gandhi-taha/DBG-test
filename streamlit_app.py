@@ -29,6 +29,11 @@ class Message:
 #         ]
 # 	)
 
+def load_css():
+	with open("static/styles.css", "r") as f:
+		css = f'<style>{f.read()}</style>'
+		st.markdown(css, unsafe_allow_html=True)
+
 def load_lottiefile(filepath: str):
 
 	'''Load lottie animation file'''
@@ -47,8 +52,8 @@ def on_click_callback():
 	user_prompt = st.session_state.user_prompt
 	st.session_state.history.append(user_prompt)
 
-	bot_prompt = st.session_state.bot_prompt
-	st.session_state.history.append(bot_prompt)
+	# bot_prompt = st.session_state.bot_prompt
+	# st.session_state.history.append(bot_prompt)
 
 	# st.session_state.history.append(
 	# 	st.write("User", user_prompt)
@@ -60,7 +65,7 @@ def on_click_callback():
 
 initialize_session_state()
 
-st.title("Natina-AI")
+st.title("Natina")
 
 # Sidebar content 
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
@@ -71,10 +76,16 @@ button1 = sideb.button(" 📁  HR-Bot")
 button2 = sideb.button(" 💻  IT-Bot")
 button3 = sideb.button(" 📈  Finance-Bot")
 Bar2 = sideb.write("-------")
-st.markdown(
+Text1 = sideb.write(
 	"""
-	
-"""
+	#### Natina is currently supporting HR & IT Operations Regulations and Finance Reports.
+	"""
+)
+Bar2 = sideb.write("-------")
+Text2 = sideb.write(
+	"""
+		Copyright © 2024 Deutsche Börse Group - All Rights Reserved.
+	"""
 )
 
 # Main content
@@ -85,6 +96,10 @@ placeholder = st.empty()
 with chat_placeholder:
 	for chat in st.session_state.history:
 		st.markdown(chat)
+		div = f"""
+		<div class='chat-row'>{chat}</div>
+		"""
+		st.markdown(div, unsafe_allow_html=True)
 
 with prompt_placeholder:
 	st.markdown("_Press Enter to Submit_")
