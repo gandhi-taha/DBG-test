@@ -4,10 +4,9 @@ import vertexai
 from vertexai.preview.generative_models import GenerativeModel, Part, grounding, Tool
 import vertexai.preview.generative_models as generative_models
 
-vertexai.init(project="myspace-cstanger", location="europe-west3")
 model = GenerativeModel(
     "gemini-1.5-pro-preview-0409",
-    system_instruction=["""Antworte immer auf Deutsch"""]
+    system_instruction=["""Only considure the Context provided. If you don't find an answer there, response that the information is not given in the uploaded file. Response always in the same language of the userquery."""]
 )
 chat = model.start_chat()
 

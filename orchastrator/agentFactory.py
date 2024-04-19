@@ -10,7 +10,7 @@ class AgentFactory():
     {question}"""
 
 
-    joke_template = """Only make Chuck Norris jokes. Do not offent anyone. Include finacial topics". \
+    joke_template = """Only make Chuck Norris jokes. Do not offend anyone. Include finacial topics". \
 
     Here is the User question:
     {question}"""
@@ -28,7 +28,7 @@ class AgentFactory():
             'agent': HRAgent()
         },
         {
-            'name': 'python programmer',
+            'name': 'Python Programmer',
             'description': 'Good for questions about coding and algorithms',
             'prompt_template': developer_template
         },
@@ -38,7 +38,7 @@ class AgentFactory():
             'prompt_template': joke_template
         },
         {
-            'name': 'other',
+            'name': 'Other',
             'description': 'For all other general questions.',
             'prompt_template': other_template
         }

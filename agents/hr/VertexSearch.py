@@ -41,7 +41,7 @@ def search_sample(
             ignore_adversarial_query=True,
             ignore_non_summary_seeking_query=True,
             model_prompt_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec(
-                preamble="Antworte immer auf Deutsch und mach einen witz zum schluss"
+                preamble="Only considure the Context provided. Response always in the same language of the userquery."
             ),
             model_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelSpec(
                 version="preview",

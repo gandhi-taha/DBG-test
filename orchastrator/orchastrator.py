@@ -8,10 +8,14 @@ from langchain_core.runnables import RunnableLambda
 
 from langchain.callbacks.tracers import ConsoleCallbackHandler
 from orchastrator.agentFactory import AgentFactory
+import vertexai
 
 # from langchain.globals import set_debug
 # set_debug(True)
 
+vertexai.init(
+    project=os.getenv("ORCHASTRATOR_PROJECT_ID", "dbg-dbgenai-sbox-55")
+)
 
 with open(os.path.join(os.path.dirname(__file__), "router_prompt_template.txt"), "r") as f:
     router_prompt = PromptTemplate.from_template(f.read())
