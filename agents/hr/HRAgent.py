@@ -17,10 +17,11 @@ from agents.hr.VertexSearch import search_sample
 with open(os.path.join(os.path.dirname(__file__), "promptTemplate.txt"), "r") as f:
     promptTemplate = ChatPromptTemplate.from_template(f.read())
 
-PROJECT_ID = "myspace-cstanger"  # Set to your Project ID
+PROJECT_ID = os.getenv("HR_AGENT_PROJECT_ID", "dbg-dbgenai-sbox-55")
 LOCATION_ID = "eu"  # Set to your data store location
-SEARCH_ENGINE_ID = "db-hr_1713275680756"  # Set to your search app ID
-# DATA_STORE_ID = "db-test_1713280342754"  # Set to your data store ID
+SEARCH_ENGINE_ID =  os.getenv("HR_AGENT_SEARCH_ENGINE_ID", "hr-agent_1713441822734")
+DATA_STORE_ID =  os.getenv("HR_AGENT_DATA_STORE_ID", "hr-agent-ds_1713441887202")
+# DATA_STORE_ID = "hr-agent-ds_1713441887202"  # Set to your data store ID
 
 
 def format_docs(docs: List[Document]):
@@ -43,7 +44,7 @@ def vertexAISearch(question):
     response =  search_sample(
         project_id=PROJECT_ID, 
         location=LOCATION_ID, 
-        engine_id="db-hr-test_1713279819955", 
+        engine_id=SEARCH_ENGINE_ID, 
         search_query=question, )
     
     # for word in response.split():
