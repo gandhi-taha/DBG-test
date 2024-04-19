@@ -111,14 +111,7 @@ example_prompts = [
 	"Wizard card with Vigiliance ability",
 ]
 
-example_prompts_help = [
-	"Look for a specific card effect",
-	"Search for card type: 'Vampires', card color: 'black', and ability: 'flying'",
-	"Color cards and card type",
-	"Specifc card effect to another mana color",
-	"Search for card names",
-	"Search for card types with specific abilities",
-]
+
 
 button_cols = st.columns(3)
 button_cols_2 = st.columns(3)

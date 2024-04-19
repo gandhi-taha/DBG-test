@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_extras.stylable_container import stylable_container
+# from orchastrator.orchastrator import Orchastrator
 import os
 import random
 import time
@@ -132,43 +133,45 @@ if not st.session_state.greetings:
 		# st.session_state.greetings = True
 
 
-# Example prompts
-example_prompts = [
-	"How to access Jira",
-	"Explain me the different Personas",
-	"Use the prompt correcty",
-	"White card with protection from black",
-	"The famous 'Black Lotus' card",
-	"Wizard card with Vigiliance ability",
-]
+# # Example prompts
+# example_prompts = [
+# 	"How to access Jira",
+# 	"Explain me the different Personas",
+# 	"How is the DAX doing today",
+# ]
 
-example_prompts_help = [
-	"Look for a specific card effect",
-	"Search for card type: 'Vampires', card color: 'black', and ability: 'flying'",
-	"Color cards and card type",
-	"Specifc card effect to another mana color",
-	"Search for card names",
-	"Search for card types with specific abilities",
-]
+# example_prompts_help = [
+# 	"Will redirect you to Jira Service Desk",
+# 	"Search for card type: 'Vampires', card color: 'black', and ability: 'flying'",
+# 	"Gives you the current value for DAX",
+# ]
 
-button_cols = st.columns(3)
-button_cols_2 = st.columns(3)
+# button_cols = st.columns(3, gap="small")
 
-button_pressed = ""
 
-if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
-	button_pressed = example_prompts[0]
-elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
-	button_pressed = example_prompts[1]
-elif button_cols[2].button(example_prompts[2], help=example_prompts_help[2]):
-	button_pressed = example_prompts[2]
+# button_pressed = ""
 
-elif button_cols_2[0].button(example_prompts[3], help=example_prompts_help[3]):
-	button_pressed = example_prompts[3]
-elif button_cols_2[1].button(example_prompts[4], help=example_prompts_help[4]):
-	button_pressed = example_prompts[4]
-elif button_cols_2[2].button(example_prompts[5], help=example_prompts_help[5]):
-	button_pressed = example_prompts[5]
+# if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
+# 	button_pressed = example_prompts[0]
+# elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
+# 	button_pressed = example_prompts[1]
+# elif button_cols[2].button(example_prompts[2], help=example_prompts_help[2]):
+# 	button_pressed = example_prompts[2]
+
+
+col1, col2, col3 = st.columns(3)
+with col1:
+    if st.button('Click me!'):
+        st.write('Button clicked!')
+with col2:
+    if st.button('Click me!'):
+        st.write('Button clicked!')
+with col3:
+    if st.button('Click me!'):
+        st.write('Button clicked!')
+
+
+
 
 
 
@@ -186,10 +189,21 @@ if prompt := st.chat_input("Type a message"):
 
     # Add user message to chat history
     st.session_state.messages.append(
-        {"role": "user", "content": new_files+"\n"+prompt})
+        {"role": "human", "content": new_files+"\n"+prompt})
+    
     # Display user message in chat message container
     with st.chat_message("human", avatar="static/user.png"):
-        st.markdown(prompt)
+            st.markdown(prompt,
+                        # """
+                        # <style>
+                        #     .st-emotion-cache-1c7y2kd {
+                        #     flex-direction: row-reverse;
+                        #     text-align: right;
+                        # </style>
+                        # """,
+                        unsafe_allow_html=True,
+                        )
+
     # Display assistant response in chat message container
     with st.chat_message("ai", avatar="static/chatbot.png"):
         with st.spinner('Processing'):
@@ -198,5 +212,5 @@ if prompt := st.chat_input("Type a message"):
         # st.markdown(response)
     # Add assistant response to chat history
     st.session_state.messages.append(
-        {"role": "assistant", "content": response})
+        {"role": "ai", "content": response})
     st.rerun()
