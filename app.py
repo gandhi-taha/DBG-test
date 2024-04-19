@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_extras.stylable_container import stylable_container
-# from orchastrator.orchastrator import Orchastrator
+from orchastrator.orchastrator import Orchastrator
 import os
 import random
 import time
@@ -58,7 +58,7 @@ def response_generator():
     # Routing to generall orchastrator
     else:
         orchastrator = Orchastrator()
-        response = orchastrator.route({"question": prompt})
+        response = orchastrator.route({"question": prompt, "persona": selectionbox})
         for respone in response:
             yield respone
             time.sleep(0.05)
@@ -115,13 +115,11 @@ if "messages" not in st.session_state:
 # Display chat messages from history on app rerun
 
 
-# for message in st.session_state.messages:
-#     with st.chat_message(message["role"]):
-#         st.markdown(message["content"])
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
 uploaded_files = st.file_uploader("Choose PPT or PDF file", accept_multiple_files=True, type=["pdf"], key=st.session_state.widget_key)
-
-
 
 # # Greet user
 if not st.session_state.greetings:
@@ -159,16 +157,16 @@ if not st.session_state.greetings:
 # 	button_pressed = example_prompts[2]
 
 
-col1, col2, col3 = st.columns(3)
-with col1:
-    if st.button('Click me!'):
-        st.write('Button clicked!')
-with col2:
-    if st.button('Click me!'):
-        st.write('Button clicked!')
-with col3:
-    if st.button('Click me!'):
-        st.write('Button clicked!')
+# col1, col2, col3 = st.columns(3)
+# with col1:
+#     if st.button('Click me!'):
+#         st.write('Button clicked!')
+# with col2:
+#     if st.button('Click me!'):
+#         st.write('Button clicked!')
+# with col3:
+#     if st.button('Click me!'):
+#         st.write('Button clicked!')
 
 
 
