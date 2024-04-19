@@ -1,10 +1,11 @@
 streamlit
 streamlit_extras
+streamlit_lottie
 google-cloud-aiplatform
 python-dotenv
 google-generativeai
 joblib
-
+streamlit_lottie
 langchain-core
 langsmith
 langchain-google-vertexai
