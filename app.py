@@ -152,7 +152,7 @@ if uploaded_files is not None:
         sensitivity_label = check_sensitivity_label(file_text)
         violation_value = -1
         if sensitivity_label == violation_value:
-            st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and cannot be processed. Please try uploading another file.")
+            st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
         else:
              valid_files.append(file)
 
