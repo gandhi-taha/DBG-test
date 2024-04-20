@@ -13,3 +13,5 @@ prompt_toolkit
 langchain
 google-cloud-discoveryengine
 langchain_google_community
+PyPDF2
+re

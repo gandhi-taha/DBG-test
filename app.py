@@ -12,6 +12,8 @@ from typing import Literal
 from dataclasses import dataclass
 import json
 from random import randint
+import re
+import PyPDF2
 
 st.set_page_config(layout='wide', page_title="Natina-AI", page_icon="DBG-Logo.png")
 # custom_html = """
@@ -81,7 +83,7 @@ selectionbox = sideb.selectbox(
 	"Select a Department",
 	("📁 HR Persona", "💻 IT Persona", "📈 Finance Persona"),
 	)
-# button1 = sideb.button(" 📁  HR-Bot")
+# button1 = sideb.button(" 📁  HR-Bot")s
 # button2 = sideb.button(" 💻  IT-Bot")
 # button3 = sideb.button(" 📈  Finance-Bot")
 # Bar2 = sideb.write("-------")
@@ -122,31 +124,37 @@ for message in st.session_state.messages:
 uploaded_files = st.file_uploader("Choose PDF file", accept_multiple_files=True, type=["pdf"], key=st.session_state.widget_key)
 
 ## Sensitivity check (not done yet)
-def find_sensitivity_label(file_text):
-    # list of sensitivity labels
+def check_sensitivity_label(file_text):
+    #NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
+    
+
     #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
-    labels = ["Strictly Confidential", "Confidential"]
-    # regex to match
-    pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b", re.IGNORECASE)
-
-
-    #TODO: define text
-
-    # Search for the first occurrence of any label
-    match = pattern.search(text)
+    labels = ["Strictly Confidential", "Confidential"]  
+    pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b")
+    match = pattern.search(file_text)
 
     if match:
         return -1
     else:
         return None
 
+def read_pdf(file):
+     pdf_reader = PyPDF2.PdfReader(file)
+     first_page = pdf_reader.pages[0]
+     page_text = first_page.extract_text()
+     return page_text
+
 if uploaded_files is not None:
+    valid_files = []
     for file in uploaded_files:
-        file_content = file.getvalue()
-        sensitivity_label = check_sensitivity_label(file_content)
+        
+        file_text = read_pdf(file)
+        sensitivity_label = check_sensitivity_label(file_text)
         violation_value = -1
         if sensitivity_label == violation_value:
-            st.error("Upload failed. File is either marked as 'Confidential' or 'Strictly Confidential'. Please try again with another file.")
+            st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and cannot be processed. Please try uploading another file.")
+        else:
+             valid_files.append(file)
 
 # # Greet user
 if not st.session_state.greetings:
@@ -205,7 +213,7 @@ if not st.session_state.greetings:
 # Accept user input
 if prompt := st.chat_input("Type a message"):
     new_files = ""
-    for uploaded_file in uploaded_files:
+    for uploaded_file in valid_files:       #earlier was taken from uploaded_files directly
         bytes_data = uploaded_file.read()
         st.session_state.files.append(
             {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False})
