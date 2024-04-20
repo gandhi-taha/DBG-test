@@ -119,7 +119,34 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-uploaded_files = st.file_uploader("Choose PPT or PDF file", accept_multiple_files=True, type=["pdf"], key=st.session_state.widget_key)
+uploaded_files = st.file_uploader("Choose PDF file", accept_multiple_files=True, type=["pdf"], key=st.session_state.widget_key)
+
+## Sensitivity check (not done yet)
+def find_sensitivity_label(file_text):
+    # list of sensitivity labels
+    #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
+    labels = ["Strictly Confidential", "Confidential"]
+    # regex to match
+    pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b", re.IGNORECASE)
+
+
+    #TODO: define text
+
+    # Search for the first occurrence of any label
+    match = pattern.search(text)
+
+    if match:
+        return -1
+    else:
+        return None
+
+if uploaded_files is not None:
+    for file in uploaded_files:
+        file_content = file.getvalue()
+        sensitivity_label = check_sensitivity_label(file_content)
+        violation_value = -1
+        if sensitivity_label == violation_value:
+            st.error("Upload failed. File is either marked as 'Confidential' or 'Strictly Confidential'. Please try again with another file.")
 
 # # Greet user
 if not st.session_state.greetings:
