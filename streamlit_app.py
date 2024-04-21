@@ -11,7 +11,27 @@ uploaded_file = st.file_uploader(
     label="Upload here please",
     #type=["xlsx"], # Comment out to evade Streamlit's built-in file type detector
     help="Upload the required file here please")
+css = '''
+<style>
+    [data-testid='stFileUploader'] {
+        width: max-content;
+    }
+    [data-testid='stFileUploader'] section {
+        padding: 0;
+        float: left;
+    }
+    [data-testid='stFileUploader'] section > input + div {
+        display: none;
+    }
+    [data-testid='stFileUploader'] section + div {
+        float: right;
+        padding-top: 0;
+    }
 
+</style>
+'''
+
+st.markdown(css, unsafe_allow_html=True)
 
 if uploaded_file is not None:
 	filename, file_extension = os.path.splitext(uploaded_file.name)

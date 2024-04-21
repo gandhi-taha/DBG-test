@@ -124,6 +124,27 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 uploaded_files = st.file_uploader("Choose PDF file", type=["pdf"], key=st.session_state.widget_key)
+css = '''
+<style>
+    [data-testid='stFileUploader'] {
+        width: max-content;
+    }
+    [data-testid='stFileUploader'] section {
+        padding: 0;
+        float: left;
+    }
+    [data-testid='stFileUploader'] section > input + div {
+        display: none;
+    }
+    [data-testid='stFileUploader'] section + div {
+        float: right;
+        padding-top: 0;
+    }
+
+</style>
+'''
+
+st.markdown(css, unsafe_allow_html=True)
 
 if uploaded_files is not None:
 	filename, file_extension = os.path.splitext(uploaded_files.name)
@@ -221,7 +242,20 @@ if not st.session_state.greetings:
 #     if st.button('Click me!'):
 #         st.write('Button clicked!')
 
+# Text Boxes
 
+col1, col2, col3, col4 = st.columns(4, gap="medium")
+
+
+button_pressed = ""
+with col1:
+    colbutton1 = st.button("Where to request access rights?")
+with col2:
+    colbutton2 = st.button("Explain me the 3 Personas.")
+with col3:
+    colbutton3 = st.button("How is the DAX doing today?")
+with col4:
+    colbutton4 = st.button("I want to book a Train ticket.")
 
 
 
@@ -265,3 +299,4 @@ if prompt := st.chat_input("Type a message"):
     st.session_state.messages.append(
         {"role": "ai", "content": response})
     st.rerun()
+
