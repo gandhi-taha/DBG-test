@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_extras.stylable_container import stylable_container
-from orchastrator.orchastrator import Orchastrator
+# from orchastrator.orchastrator import Orchastrator
 import os
 import random
 import time
@@ -41,7 +41,7 @@ def load_lottiefile(filepath: str):
 	with open(filepath, "r") as f:
 		return json.load(f)
 
-st_lottie(load_lottiefile("images/Nationa-Ai.json"), speed=1, reverse=False, loop=True, quality="high", height=300)
+# st_lottie(load_lottiefile("images/Nationa-Ai.json"), speed=1, reverse=False, loop=True, quality="high", height=300)
 
 
 def response_generator():
@@ -80,7 +80,7 @@ st.sidebar.header("DBGenAI - Platform")
 sideb = st.sidebar
 Bar1 = sideb.write("-------")
 selectionbox = sideb.selectbox(
-	"Select a Department",
+	"Select a topic",
 	("📁 HR Persona", "💻 IT Persona", "📈 Finance Persona"),
 	)
 # button1 = sideb.button(" 📁  HR-Bot")s
@@ -102,7 +102,9 @@ selectionbox = sideb.selectbox(
 
 
 # Main content
-st.title("Natina-AI")
+st.title("Good afternoon, Lars Bolanca")
+st.write("#### Natina-AI")
+st.write("###### DBG's new GenAI Assistant")
 
 # Initialize File Uploader
 if "files" not in st.session_state:
@@ -121,7 +123,23 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-uploaded_files = st.file_uploader("Choose PDF file", accept_multiple_files=True, type=["pdf"], key=st.session_state.widget_key)
+uploaded_files = st.file_uploader("Choose PDF file", type=["pdf"], key=st.session_state.widget_key)
+
+if uploaded_files is not None:
+	filename, file_extension = os.path.splitext(uploaded_files.name)
+
+	if (file_extension == ".pdf") is True:
+		st.success("Upload successful")
+        # Perform intended task here ...
+	else:
+		st.error('File type is not PDF')
+
+if uploaded_files is not None:
+	filename, file_extension = os.path.splitext(uploaded_files.name)
+	if (filename == "Payslip") is True:
+		st.error("Sensitive Data is not allowed!")
+	else:
+		pass
 
 ## Sensitivity check (not done yet)
 def check_sensitivity_label(file_text):
@@ -159,7 +177,7 @@ if uploaded_files is not None:
 # # Greet user
 if not st.session_state.greetings:
 	with st.chat_message("ai", avatar="static/chatbot.png"):
-		intro = """Hello, I am Natina."""
+		intro = """Hello, I am Natina.How can I help you?"""
 		st.markdown(intro)
 		#Add Bot response to chat History
 		# st.session_state.messages.append(intro)
