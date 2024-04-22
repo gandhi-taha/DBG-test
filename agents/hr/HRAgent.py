@@ -6,7 +6,7 @@ from langchain_google_vertexai import ChatVertexAI, VertexAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel
-from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from langchain_core.documents import Document
 from langchain.tools import tool
 
@@ -39,13 +39,14 @@ def format_docs(docs: List[Document]):
 
 
 @tool
-def vertexAISearch(question):
+def vertexAISearch(question: str, persona: str):
     """
     Uses a Datastore VertexAI Search very based on a userquery.
     :param question: User query .
+    :param persona: User persona of the query .
     :return: Response as string.
     """
-    persona = "other"
+
 
     response = search_sample(
         project_id=PROJECT_ID,
@@ -68,7 +69,7 @@ class HRAgent:
                             temperature=0.5, convert_system_message_to_human=True)
 
         self.chain = (
-            {"answer": lambda x: vertexAISearch(x["question"])}
+            {"answer": RunnableLambda(vertexAISearch)}
             | promptTemplate
             | self.llm
             | StrOutputParser()
