@@ -94,11 +94,11 @@ selectionbox = sideb.selectbox(
 
 # Main content
 header = st.markdown(
-    f'<a style="display: absolute;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: 1px;word-spacing: 1px;">Good afternoon, Lars Bolanca</a>',
+    f'<a style="display: absolute;margin-top:50px;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: -10px;word-spacing: -10px;">Good afternoon, Lars Bolanca</a>',
     unsafe_allow_html=True
 )
 subheader = st.markdown(
-    f'<a style="display: absolute; color: #C8C8C8; padding:-10px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;">How can I help you?</a>',
+    f'<a style="display: absolute; color: #C8C8C8; margin-bottom:20px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;">How can I help you?</a>',
     unsafe_allow_html=True
 )
 
@@ -246,24 +246,24 @@ col1, col2, col3, col4 = st.columns(4, gap="small")
 with col1:
 	
 	st.markdown(
-    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px;padding: 8px ; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">How can I access IIQ for my access rights?</a>',
+    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
     unsafe_allow_html=True
 )
 with col2:
 	
 	st.markdown(
-    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 8px ; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Need to open an HR or Help Desk related ticket?</a>',
+    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
     unsafe_allow_html=True
 )
 with col3:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 8px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Give me the current value of the DAX</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
     unsafe_allow_html=True
 )
 with col4:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px;padding: 8px; background-color: white; color: #808286;border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Provide me the local Remote Working Policy</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me the DBGs Remote Working Policy</a>',
     unsafe_allow_html=True
 )
