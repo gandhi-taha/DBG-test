@@ -45,12 +45,12 @@ st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png"
 # st.components.v1.html(custom_html)
 
 
-def load_lottiefile(filepath: str):
+# def load_lottiefile(filepath: str):
 
-	'''Load lottie animation file'''
+# 	'''Load lottie animation file'''
 
-	with open(filepath, "r") as f:
-		return json.load(f)
+# 	with open(filepath, "r") as f:
+# 		return json.load(f)
 
 # st_lottie(load_lottiefile("images/Nationa-Ai.json"), speed=1, reverse=False, loop=True, quality="high", height=300)
 
@@ -86,16 +86,10 @@ avatars = {
     "ai": "/static/chatbot.png",}
 
 # Sidebar content 
-logo = st.sidebar.markdown("""
-	<img src="DBG-Logo.png" alt="logo">,
-                        
-	unsafe_allow_html=True
-                        """
-)
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
 sideb = st.sidebar
 subheader = st.sidebar.markdown(
-    f'<a style="display: absolute; color: #0A07C7; padding:20px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 15px;border: solid ;">New Conversation</a>',
+    f'<a href="" style="display: inline-block; margin-left: 40px;margin-top: 50px; padding:5px;  background-color: white; color: #0A07C7; border-color: #0A07C7; text-align: center; text-decoration: none; font-size: 15px; border-radius: 10px;border: solid;">➕ New Conversation</a>',
     unsafe_allow_html=True
 )
 
@@ -320,24 +314,24 @@ col1, col2, col3, col4 = st.columns(4, gap="small")
 with col1:
 	
 	st.markdown(
-    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px;padding: 8px ; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">How can I access IIQ for my access rights?</a>',
+    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
     unsafe_allow_html=True
 )
 with col2:
 	
 	st.markdown(
-    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 8px ; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Need to open an HR or Help Desk related ticket?</a>',
+    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
     unsafe_allow_html=True
 )
 with col3:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 8px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Give me the current value of the DAX</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
     unsafe_allow_html=True
 )
 with col4:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px;padding: 8px; background-color: white; color: #808286;border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Provide me the local Remote Working Policy</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me the DBGs Remote Working Policy</a>',
     unsafe_allow_html=True
 )

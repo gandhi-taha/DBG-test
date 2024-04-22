@@ -56,9 +56,10 @@ avatars = {
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
 sideb = st.sidebar
 subheader = st.sidebar.markdown(
-    f'<a style="display: absolute; color: #0A07C7; padding:20px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 15px;border: solid ;">New Conversation</a>',
+    f'<a href="" style="display: inline-block; margin-left: 40px;margin-top: 50px; padding:5px;  background-color: white; color: #0A07C7; border-color: #0A07C7; text-align: center; text-decoration: none; font-size: 15px; border-radius: 10px;border: solid;">➕ New Conversation</a>',
     unsafe_allow_html=True
 )
+
 
 
 Bar1 = sideb.write("-------")
