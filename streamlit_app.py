@@ -180,7 +180,7 @@ with stylable_container(
     css_styles="""
         {
             position: fixed;
-            bottom: 10px;
+            bottom: 120px;
         }
         """,
 ):

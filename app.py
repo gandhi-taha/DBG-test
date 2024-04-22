@@ -61,7 +61,6 @@ subheader = st.sidebar.markdown(
 )
 
 
-
 Bar1 = sideb.write("-------")
 text1 = st.sidebar.markdown(
     f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 12px;">CHAT HISTORY</a>',
@@ -119,24 +118,33 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"], avatar=message["avatar"]):
         st.markdown(message["content"])
 
-uploaded_files = st.file_uploader(" ", accept_multiple_files=True, type=["pdf", "png", "jpg", "jpeg"], key=st.session_state.widget_key)
+with stylable_container(
+    key="bottom_content",
+    css_styles="""
+        {
+            position: fixed;
+            bottom: 120px;
+        }
+        """,
+):
+	uploaded_files = st.file_uploader(' ',type=["pdf"],accept_multiple_files=True ,key=st.session_state.widget_key)
+
 css = '''
 <style>
-    [data-testid='stFileUploader'] {
-        width: max-content;
-    }
-    [data-testid='stFileUploader'] section {
-        padding: 0;
-        float: left;
-    }
-    [data-testid='stFileUploader'] section > input + div {
-        display: none;
-    }
-    [data-testid='stFileUploader'] section + div {
-        float: right;
-        padding-top: 0;
-    }
-
+[data-testid='stFileUploader'] {
+    display: flex;
+    align-items: center;
+}
+[data-testid='stFileUploader'] section {
+    padding: 0;
+}
+[data-testid='stFileUploader'] section > input + div {
+    display: none;
+}
+[data-testid='stFileUploader'] section + div {
+    margin-left: 1cm; /* Adjust spacing for browse button */
+    margin-right: auto; /* Push uploaded file name to the right */
+}
 </style>
 '''
 
