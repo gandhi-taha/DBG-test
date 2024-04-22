@@ -43,9 +43,6 @@ def response_generator():
             yield respone
             time.sleep(0.05)
 
-# def on_click_callback():
-# 	user_prompt = st.session_state.user_prompt
-# 	st.session_state.history.append(user_prompt)
 
 
 avatars = {
