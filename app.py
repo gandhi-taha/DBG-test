@@ -123,7 +123,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-uploaded_files = st.file_uploader("Choose PDF file", type=["pdf"], key=st.session_state.widget_key)
+uploaded_files = st.file_uploader("Choose PDF file", type=["pdf"],accept_multiple_files=True ,key=st.session_state.widget_key)
 css = '''
 <style>
     [data-testid='stFileUploader'] {
@@ -146,21 +146,21 @@ css = '''
 
 st.markdown(css, unsafe_allow_html=True)
 
-if uploaded_files is not None:
-	filename, file_extension = os.path.splitext(uploaded_files.name)
+# if uploaded_files is not None:
+# 	filename, file_extension = os.path.splitext(uploaded_files.name)
 
-	if (file_extension == ".pdf") is True:
-		st.success("Upload successful")
-        # Perform intended task here ...
-	else:
-		st.error('File type is not PDF')
+# 	if (file_extension == ".pdf") is True:
+# 		st.success("Upload successful")
+#         # Perform intended task here ...
+# 	else:
+# 		st.error('File type is not PDF')
 
-if uploaded_files is not None:
-	filename, file_extension = os.path.splitext(uploaded_files.name)
-	if (filename == "Payslip") is True:
-		st.error("Sensitive Data is not allowed!")
-	else:
-		pass
+# if uploaded_files is not None:
+# 	filename, file_extension = os.path.splitext(uploaded_files.name)
+# 	if (filename == "Payslip") is True:
+# 		st.error("Sensitive Data is not allowed!")
+# 	else:
+# 		pass
 
 ## Sensitivity check (not done yet)
 def check_sensitivity_label(file_text):
