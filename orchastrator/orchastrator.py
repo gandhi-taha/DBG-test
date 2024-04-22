@@ -54,7 +54,7 @@ def generate_router_chain(llm):
     router_chain = (router_prompt.partial(routes_str=format_routes(agent_descriptions)) | llm | StrOutputParser())
     # TODO: greedy search for parsing intent, prevent formating errors 
     
-    return {"topic": router_chain, "question": lambda x: x["question"]} | RunnableLambda(lambda x: destination_chains[x["topic"]])    
+    return {"topic": router_chain, "question": lambda x: x["question"], "persona": lambda x: x["persona"]} | RunnableLambda(lambda x: destination_chains[x["topic"]])    
 
 
 
