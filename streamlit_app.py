@@ -307,6 +307,16 @@ if prompt := st.chat_input("Type a message"):
         {"role": "ai", "content": response})
     st.rerun()
 
+# inputer = st.markdown(
+# """
+# 	<sytle>
+# 	.stChatInputContainer > div {
+# 	background-color: #fff;
+# 	}
+# 	</style>
+
+# """, unsafe_allow_html=True)
+
 
 
 col1, col2, col3, col4 = st.columns(4, gap="small")

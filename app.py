@@ -20,7 +20,7 @@ url_Dax = "https://www.investing.com/indices/germany-30"
 url_IIQ = "https://iiq-deutsche-boerse.com/identify/home.jsf"
 url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filter=hr"
 
-st.set_page_config(layout='wide', page_title="Natina-AI", page_icon="DBG-Logo.png")
+st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png")
 
 def response_generator():
     new_docs = []
@@ -220,6 +220,8 @@ if prompt := st.chat_input("Type a message"):
             {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False, "mime_type": uploaded_file.type})
         new_files += uploaded_file.name + "; "
     st.session_state.widget_key = str(randint(1000, 100000000))
+
+
 
     # Add user message to chat history
     st.session_state.messages.append(
