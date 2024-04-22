@@ -1,4 +1,5 @@
 from agents.hr.HRAgent import HRAgent
+from agents.websearch.WebSearchAgent import WebSearchAgent
 
 
 class AgentFactory():
@@ -10,9 +11,9 @@ class AgentFactory():
     {question}"""
 
 
-    joke_template = """Only make Chuck Norris jokes. Do not offend anyone. Include finacial topics". \
+    joke_template = """Make one Chuck Norris joke. Do not offend anyone, but make a joke about how hard it is to work with Citrix". \
 
-    Here is the User question:
+    Here is the User question regarding the joke:
     {question}"""
 
     other_template = """Say that you can not answer the question in a very polite way". \
@@ -28,6 +29,12 @@ class AgentFactory():
             'agent': HRAgent()
         },
         {
+            'name': 'WebSearch',
+            'description': 'This Agent is good for general web search questions about stocks like the DAX.',
+            'prompt_template': other_template,
+            'agent': WebSearchAgent()
+        },
+        {
             'name': 'Python Programmer',
             'description': 'Good for questions about coding and algorithms',
             'prompt_template': developer_template
@@ -40,6 +47,6 @@ class AgentFactory():
         {
             'name': 'Other',
             'description': 'For all other general questions.',
-            'prompt_template': other_template
+            'agent': WebSearchAgent()
         }
     ]

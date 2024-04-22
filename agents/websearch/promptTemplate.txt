@@ -1,6 +1,6 @@
+Format the the following text as to a markdown: 
+"{answer}"
 
-Answer the question based on the websearch. Always mention that the information was retrieved by a Google Web Search
-
-Question: {question}
-
-
+Also say that this information was fetch via a Google Web Search Grounding.
+don't use code block and do not start with "```" and start with an headline of ##.
+ format the input text exactly as it is and don't use references.
