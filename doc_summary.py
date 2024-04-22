@@ -14,12 +14,11 @@ tool = Tool.from_google_search_retrieval(grounding.GoogleSearchRetrieval())
 
 
 def multiturn_generate_content(prompt, files):
-    print(chat.history)
     text_response = []
     docs = []
     for file in files:
         docs.append(Part.from_data(
-            mime_type="application/pdf",
+            mime_type=file["mime_type"],
             data=file["file_data"]))
     docs.append(prompt)
 

@@ -94,10 +94,10 @@ if "messages" not in st.session_state:
 
 
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    with st.chat_message(message["role"], avatar=message["avatar"]):
         st.markdown(message["content"])
 
-uploaded_files = st.file_uploader("Choose a PDF file", accept_multiple_files=True, type=["pdf"], key=st.session_state.widget_key)
+uploaded_files = st.file_uploader("Choose a PDF file", accept_multiple_files=True, type=["pdf", "png", "jpg", "jpeg"], key=st.session_state.widget_key)
 css = '''
 <style>
     [data-testid='stFileUploader'] {
@@ -171,7 +171,7 @@ if uploaded_files is not None:
              valid_files.append(file)
 
 # # Greet user
-if not st.session_state.greetings:
+if not st.session_state.messages:
 	with st.chat_message("ai", avatar="static/chatbot.png"):
 		intro = """Hello, I am Natina.How can I help you?"""
 		st.markdown(intro)
@@ -243,13 +243,13 @@ if prompt := st.chat_input("Type a message"):
     for uploaded_file in uploaded_files:
         bytes_data = uploaded_file.read()
         st.session_state.files.append(
-            {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False})
+            {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False, "mime_type": uploaded_file.type})
         new_files += uploaded_file.name + "; "
     st.session_state.widget_key = str(randint(1000, 100000000))
 
     # Add user message to chat history
     st.session_state.messages.append(
-        {"role": "human", "content": new_files+"\n"+prompt})
+        {"role": "human", "avatar":"static/user.png", "content": new_files+"\n"+prompt})
     
     # Display user message in chat message container
     with st.chat_message("human", avatar="static/user.png"):
@@ -272,6 +272,6 @@ if prompt := st.chat_input("Type a message"):
         # st.markdown(response)
     # Add assistant response to chat history
     st.session_state.messages.append(
-        {"role": "ai", "content": response})
+        {"role": "ai", "avatar":"static/chatbot.png", "content": response})
     st.rerun()
 
