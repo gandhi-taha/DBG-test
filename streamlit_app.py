@@ -24,7 +24,7 @@ url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filte
 
 
 
-st.set_page_config(layout='wide', page_title="Natina-AI", page_icon="DBG-Logo.png")
+st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png")
 # custom_html = """
 # <div class="banner">
 # <img src="https://upload.wikimedia.org/wikipedia/de/thumb/8/87/Deutsche_B%C3%B6rse_Group_Logo.svg/1280px-Deutsche_B%C3%B6rse_Group_Logo.svg.png" alt = "Banner Image">
@@ -86,22 +86,54 @@ avatars = {
     "ai": "/static/chatbot.png",}
 
 # Sidebar content 
+logo = st.sidebar.markdown("""
+	<img src="DBG-Logo.png" alt="logo">,
+                        
+	unsafe_allow_html=True
+                        """
+)
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
-st.sidebar.header(":black[DBGenAI - Platform]")
 sideb = st.sidebar
+subheader = st.sidebar.markdown(
+    f'<a style="display: absolute; color: #0A07C7; padding:20px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 15px;border: solid ;">New Conversation</a>',
+    unsafe_allow_html=True
+)
+
+
 Bar1 = sideb.write("-------")
-Text1 = st.sidebar.write(" ### :blue[➕ **New Chat**]")
-Text2 = st.sidebar.write(" :grey[:file_cabinet: History]")
-Text3 = st.sidebar.write(" :grey[🖥️ Live Agent]")
-Text4 = st.sidebar.write(" :grey[:gear: Settings]")
-
-
+text1 = st.sidebar.markdown(
+    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 12px;">CHAT HISTORY</a>',
+    unsafe_allow_html=True
+)
+text2 = st.sidebar.markdown(
+    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Annual Report</a>',
+    unsafe_allow_html=True
+)
+text3 = st.sidebar.markdown(
+    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Learning Opportunity</a>',
+    unsafe_allow_html=True
+)
+text4 = st.sidebar.markdown(
+    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum A</a>',
+    unsafe_allow_html=True
+)
+text5 = st.sidebar.markdown(
+    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum B</a>',
+    unsafe_allow_html=True
+)
 
 Bar2 = sideb.write("-------")
 selectionbox = sideb.selectbox(
 	"Select a role",
 	("📁 HR Persona", "💻 IT Persona", "📈 Finance Persona"),
 	)
+
+# Bar2 = sideb.write("-------")
+# Text2 = sideb.write(
+#  	"""
+#  		Copyright © 2024 Deutsche Börse Group - All Rights Reserved.
+#  	"""
+# )
 # button1 = sideb.button(" 📁  HR-Bot")s
 # button2 = sideb.button(" 💻  IT-Bot")
 # button3 = sideb.button(" 📈  Finance-Bot")
@@ -122,29 +154,15 @@ selectionbox = sideb.selectbox(
 
 # Main content
 header = st.markdown(
-    f'<a style="display: absolute;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: 1px;word-spacing: 1px;">**Good afternoon, Lars Bolanca**</a>',
+    f'<a style="display: absolute;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: 1px;word-spacing: 1px;">Good afternoon, Lars Bolanca</a>',
     unsafe_allow_html=True
 )
 subheader = st.markdown(
-    f'<a style="display: absolute; color: #C8C8C8; padding:-10px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;">**How can I help you?**</a>',
+    f'<a style="display: absolute; color: #C8C8C8; padding:-10px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;">How can I help you?</a>',
     unsafe_allow_html=True
 )
 
 
-
-# Header = """
-# 	# :grey[Good afternoon, Lars Bolanca]
-# """
-# subheader = "# :blue[How can I help you?]"
-
-# st.markdown(Header)
-# st.markdown(subheader)
-
-
-# st.title("Good afternoon, Lars Bolanca")
-# st.title(":blue[How can I help you?]")
-# st.write("#### Natina-AI")
-# st.write("###### DBG's new GenAI Assistant")
 
 # Initialize File Uploader
 if "files" not in st.session_state:
