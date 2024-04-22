@@ -121,13 +121,24 @@ selectionbox = sideb.selectbox(
 
 
 # Main content
-Header = """
-	# :grey[Good afternoon, Lars Bolanca]
-"""
-subheader = "# :blue[How can I help you?]"
+header = st.markdown(
+    f'<a style="display: absolute;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: 1px;word-spacing: 1px;">**Good afternoon, Lars Bolanca**</a>',
+    unsafe_allow_html=True
+)
+subheader = st.markdown(
+    f'<a style="display: absolute; color: #C8C8C8; padding:-10px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;">**How can I help you?**</a>',
+    unsafe_allow_html=True
+)
 
-st.markdown(Header)
-st.markdown(subheader)
+
+
+# Header = """
+# 	# :grey[Good afternoon, Lars Bolanca]
+# """
+# subheader = "# :blue[How can I help you?]"
+
+# st.markdown(Header)
+# st.markdown(subheader)
 
 
 # st.title("Good afternoon, Lars Bolanca")
@@ -245,57 +256,6 @@ if uploaded_files is not None:
         else:
              valid_files.append(file)
 
-# Greet user
-# if not st.session_state.greetings:
-# 	with st.chat_message("ai", avatar="static/chatbot.png"):
-# 		intro = """Hello"""
-# 		st.markdown(intro)
-# 		#Add Bot response to chat History
-# 		# st.session_state.messages.append(intro)
-# 		# st.session_state.greetings = True
-
-
-# # Example prompts
-# example_prompts = [
-# 	"How to access Jira",
-# 	"Explain me the different Personas",
-# 	"How is the DAX doing today",
-# ]
-
-# example_prompts_help = [
-# 	"Will redirect you to Jira Service Desk",
-# 	"Search for card type: 'Vampires', card color: 'black', and ability: 'flying'",
-# 	"Gives you the current value for DAX",
-# ]
-
-# button_cols = st.columns(3, gap="small")
-
-
-# button_pressed = ""
-
-# if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
-# 	button_pressed = example_prompts[0]
-# elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
-# 	button_pressed = example_prompts[1]
-# elif button_cols[2].button(example_prompts[2], help=example_prompts_help[2]):
-# 	button_pressed = example_prompts[2]
-
-
-# col1, col2, col3 = st.columns(3)
-# with col1:
-#     if st.button('Click me!'):
-#         st.write('Button clicked!')
-# with col2:
-#     if st.button('Click me!'):
-#         st.write('Button clicked!')
-# with col3:
-#     if st.button('Click me!'):
-#         st.write('Button clicked!')
-
-# Text Boxes
-
-
-
 
 # Accept user input
 if prompt := st.chat_input("Type a message"):
@@ -337,29 +297,29 @@ if prompt := st.chat_input("Type a message"):
 
 
 
-col1, col2, col3, col4 = st.columns(4, gap="medium")
+col1, col2, col3, col4 = st.columns(4, gap="small")
 
 with col1:
 	
 	st.markdown(
-    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottome: 30px;padding: 30px ; background-color:  blue; color: white; text-align: center; text-decoration: none; font-size: 16px; border-radius: 4px;">How can I access IIQ for my access rights?</a>',
+    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px;padding: 8px ; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">How can I access IIQ for my access rights?</a>',
     unsafe_allow_html=True
 )
 with col2:
 	
 	st.markdown(
-    f'<a href="{url_ticket}" style="display: inline-block; margin-bottome: 30px; padding: 30px ; background-color: blue; color: white; text-align: center; text-decoration: none; font-size: 16px; border-radius: 4px;">Need to open an HR or Help Desk related ticket?</a>',
+    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 8px ; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Need to open an HR or Help Desk related ticket?</a>',
     unsafe_allow_html=True
 )
 with col3:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottome: 30px; padding: 30px; background-color: blue; color: white; text-align: center; text-decoration: none; font-size: 16px; border-radius: 4px;">Give me the current value of the DAX</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 8px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Give me the current value of the DAX</a>',
     unsafe_allow_html=True
 )
 with col4:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottome: 30px;padding: 30px; background-color: blue; color: white; text-align: center; text-decoration: none; font-size: 16px; border-radius: 6px;">Provide me the local Remote Working Policy</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px;padding: 8px; background-color: white; color: #808286;border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;">Provide me the local Remote Working Policy</a>',
     unsafe_allow_html=True
 )
