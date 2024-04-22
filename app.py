@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_extras.stylable_container import stylable_container
+from doc_summary import multiturn_generate_content
 from orchastrator.orchastrator import Orchastrator
 import os
 import random
@@ -16,33 +17,6 @@ import re
 import PyPDF2
 
 st.set_page_config(layout='wide', page_title="Natina-AI", page_icon="DBG-Logo.png")
-# custom_html = """
-# <div class="banner">
-# <img src="https://upload.wikimedia.org/wikipedia/de/thumb/8/87/Deutsche_B%C3%B6rse_Group_Logo.svg/1280px-Deutsche_B%C3%B6rse_Group_Logo.svg.png" alt = "Banner Image">
-# </div>
-# <style>
-#    .banner {
-#        width: 100%;
-#        height: 200%;
-#        overflow: hidden;
-#    }
-#    .banner img {
-#        width: 80%;
-#        object-fit: cover;
-#    }
-# </style>
-# """
-# Displaying the banner
-# st.components.v1.html(custom_html)
-def load_lottiefile(filepath: str):
-
-	'''Load lottie animation file'''
-
-	with open(filepath, "r") as f:
-		return json.load(f)
-
-# st_lottie(load_lottiefile("images/Nationa-Ai.json"), speed=1, reverse=False, loop=True, quality="high", height=300)
-
 
 def response_generator():
     new_docs = []
@@ -123,7 +97,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-uploaded_files = st.file_uploader("Choose PDF file", type=["pdf"],accept_multiple_files=True ,key=st.session_state.widget_key)
+uploaded_files = st.file_uploader("Choose a PDF file", accept_multiple_files=True, type=["pdf"], key=st.session_state.widget_key)
 css = '''
 <style>
     [data-testid='stFileUploader'] {
@@ -187,7 +161,8 @@ if uploaded_files is not None:
     valid_files = []
     for file in uploaded_files:
         
-        file_text = read_pdf(file)
+        # file_text = read_pdf(file) #PyPDF2 us destroying hte file for furhte processing
+        file_text = "test"
         sensitivity_label = check_sensitivity_label(file_text)
         violation_value = -1
         if sensitivity_label == violation_value:
@@ -265,7 +240,7 @@ with col4:
 # Accept user input
 if prompt := st.chat_input("Type a message"):
     new_files = ""
-    for uploaded_file in valid_files:       #earlier was taken from uploaded_files directly
+    for uploaded_file in uploaded_files:
         bytes_data = uploaded_file.read()
         st.session_state.files.append(
             {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False})

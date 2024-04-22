@@ -26,7 +26,7 @@ def format_routes(agent_descriptions):
     :param input_list: The list of routes to format.
     :return: The formatted string.
     """
-    output_string = "* "+"\n * ".join(agent_descriptions)
+    output_string = " * "+"\n * ".join(agent_descriptions)
     print(output_string)
     return output_string
 

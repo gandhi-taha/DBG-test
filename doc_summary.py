@@ -6,7 +6,7 @@ import vertexai.preview.generative_models as generative_models
 
 model = GenerativeModel(
     "gemini-1.5-pro-preview-0409",
-    system_instruction=["""Only considure the Context provided. If you don't find an answer there, response that the information is not given in the uploaded file. Response always in the same language of the userquery."""]
+    system_instruction=["""Response always in the same language of the userquery."""]
 )
 chat = model.start_chat()
 
