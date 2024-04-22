@@ -2,3 +2,9 @@
 enableStaticServing = true 
 [client]
 showSidebarNavigation = false
+
+[theme]
+primaryColor="#1f0ef7"
+backgroundColor="#ececec"
+secondaryBackgroundColor="#ffffff"
+textColor="#0a0a0a"

@@ -118,7 +118,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"], avatar=message["avatar"]):
         st.markdown(message["content"])
 
-uploaded_files = st.file_uploader("Choose a PDF file", accept_multiple_files=True, type=["pdf", "png", "jpg", "jpeg"], key=st.session_state.widget_key)
+uploaded_files = st.file_uploader(" ", accept_multiple_files=True, type=["pdf", "png", "jpg", "jpeg"], key=st.session_state.widget_key)
 css = '''
 <style>
     [data-testid='stFileUploader'] {
@@ -192,53 +192,14 @@ if uploaded_files is not None:
              valid_files.append(file)
 
 # # Greet user
-if not st.session_state.messages:
-	with st.chat_message("ai", avatar="static/chatbot.png"):
-		intro = """Hello, I am Natina.How can I help you?"""
-		st.markdown(intro)
-		#Add Bot response to chat History
-		# st.session_state.messages.append(intro)
-		# st.session_state.greetings = True
+# if not st.session_state.messages:
+# 	with st.chat_message("ai", avatar="static/chatbot.png"):
+# 		intro = """Hello, I am Natina.How can I help you?"""
+# 		st.markdown(intro)
+# 		#Add Bot response to chat History
+# 		# st.session_state.messages.append(intro)
+# 		# st.session_state.greetings = True
 
-
-# # Example prompts
-# example_prompts = [
-# 	"How to access Jira",
-# 	"Explain me the different Personas",
-# 	"How is the DAX doing today",
-# ]
-
-# example_prompts_help = [
-# 	"Will redirect you to Jira Service Desk",
-# 	"Search for card type: 'Vampires', card color: 'black', and ability: 'flying'",
-# 	"Gives you the current value for DAX",
-# ]
-
-# button_cols = st.columns(3, gap="small")
-
-
-# button_pressed = ""
-
-# if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
-# 	button_pressed = example_prompts[0]
-# elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
-# 	button_pressed = example_prompts[1]
-# elif button_cols[2].button(example_prompts[2], help=example_prompts_help[2]):
-# 	button_pressed = example_prompts[2]
-
-
-# col1, col2, col3 = st.columns(3)
-# with col1:
-#     if st.button('Click me!'):
-#         st.write('Button clicked!')
-# with col2:
-#     if st.button('Click me!'):
-#         st.write('Button clicked!')
-# with col3:
-#     if st.button('Click me!'):
-#         st.write('Button clicked!')
-
-# Text Boxes
 
 
 # Accept user input
