@@ -240,23 +240,6 @@ if not st.session_state.messages:
 
 # Text Boxes
 
-col1, col2, col3, col4 = st.columns(4, gap="medium")
-
-
-button_pressed = ""
-with col1:
-    colbutton1 = st.button("Where to request access rights?")
-with col2:
-    colbutton2 = st.button("Explain me the 3 Personas.")
-with col3:
-    colbutton3 = st.button("How is the DAX doing today?")
-with col4:
-    colbutton4 = st.button("I want to book a Train ticket.")
-
-
-
-
-
 
 # Accept user input
 if prompt := st.chat_input("Type a message"):
