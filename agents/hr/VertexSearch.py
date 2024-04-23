@@ -9,7 +9,8 @@ def search_sample(
     location: str,
     engine_id: str,
     search_query: str,
-) -> List[discoveryengine.SearchResponse]:
+    prompt: str = ""
+) -> str:
     #  For more information, refer to:
     # https://cloud.google.com/generative-ai-app-builder/docs/locations#specify_a_multi-region_for_your_data_store
     client_options = (
@@ -41,7 +42,7 @@ def search_sample(
             ignore_adversarial_query=True,
             ignore_non_summary_seeking_query=True,
             model_prompt_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec(
-                preamble="Make the summary in markdown format. Only considure the Context provided. Response always in the same language of the userquery. "
+                preamble=prompt
             ),
             model_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelSpec(
                 version="preview",
@@ -72,9 +73,9 @@ def search_sample(
 
     response = client.search(request)
     print(response.summary.summary_text)
-    citation = "\n\n"
+    citation = "--- \n\n"
     for result in response.results[:3]:
-        citation += f"> - *[{result.document.derived_struct_data['title']}]({result.document.derived_struct_data['link'].replace(' ', '%20')})\n"
+        citation += f"> - [{result.document.derived_struct_data['title']}]({result.document.derived_struct_data['link'].replace(' ', '%20')})\n"
         print(result.document.derived_struct_data["title"])
         print(result.document.derived_struct_data["link"])
         print("---")

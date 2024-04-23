@@ -1,6 +1,6 @@
 import os
 import time
-from typing import List
+from typing import Generator, List
 from langchain_google_community import VertexAISearchRetriever
 from langchain_google_vertexai import ChatVertexAI, VertexAI
 from langchain_core.output_parsers import StrOutputParser
@@ -46,18 +46,18 @@ def vertexAISearch(question: str, persona: str):
     :param persona: User persona of the query .
     :return: Response as string.
     """
-
-
+    print("HR Agents")
+    prompt="Format the the following text as to a markdown. Don't use code block and do not start with ```"
     response = search_sample(
         project_id=PROJECT_ID,
         location=LOCATION_ID,
         engine_id=PRIVATE_SEARCH_ENGINE_ID if persona == "📁 HR Persona" else SEARCH_ENGINE_ID,
-        search_query=question)
-
+        search_query=question,
+        prompt=prompt
+        )
+    return response
     # for word in response.split():
     #    yield word + " "
-    #    time.sleep(0.05)
-    return response
 
 
 class HRAgent:
