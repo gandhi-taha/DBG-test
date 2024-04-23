@@ -25,6 +25,9 @@ url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filte
 
 
 st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png")
+st.write('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allow_html=True)
+
+
 # custom_html = """
 # <div class="banner">
 # <img src="https://upload.wikimedia.org/wikipedia/de/thumb/8/87/Deutsche_B%C3%B6rse_Group_Logo.svg/1280px-Deutsche_B%C3%B6rse_Group_Logo.svg.png" alt = "Banner Image">
@@ -88,6 +91,8 @@ avatars = {
 # Sidebar content 
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
 sideb = st.sidebar
+st.sidebar.write('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
+
 subheader = st.sidebar.markdown(
     f'<a href="" style="display: inline-block; margin-left: 40px;margin-top: 50px; padding:5px;  background-color: white; color: #0A07C7; border-color: #0A07C7; text-align: center; text-decoration: none; font-size: 15px; border-radius: 10px;border: solid;">➕ New Conversation</a>',
     unsafe_allow_html=True
@@ -342,6 +347,6 @@ with col3:
 with col4:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me the DBGs Remote Working Policy</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
     unsafe_allow_html=True
 )

@@ -21,6 +21,7 @@ url_IIQ = "https://iiq-deutsche-boerse.com/identify/home.jsf"
 url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filter=hr"
 
 st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png")
+st.write('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allow_html=True)
 
 def response_generator():
     new_docs = []
@@ -271,6 +272,6 @@ with col3:
 with col4:
 	
 	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me the DBGs Remote Working Policy</a>',
+    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
     unsafe_allow_html=True
 )
