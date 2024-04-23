@@ -275,3 +275,13 @@ with col4:
     f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
     unsafe_allow_html=True
 )
+
+if st.session_state is not None:
+    del col1,col2,col3,col4
+
+
+if st.session_state is not None:
+    remove= st.sidebar.button("Clear Chat")
+    if remove:
+        st.session_state.messages = []
+        st.success("Chat Successfully cleared")
