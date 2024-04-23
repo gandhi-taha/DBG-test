@@ -10,19 +10,15 @@ model = GenerativeModel(
 )
 chat = model.start_chat()
 
-tool = Tool.from_google_search_retrieval(grounding.GoogleSearchRetrieval())
 
-
-def multiturn_generate_content(prompt, files):
+def multiturn_generate_content(prompt, file):
     print("Alfred Usecase")
-    text_response = []
     docs = []
-    for file in files:
+    if file:
         docs.append(Part.from_data(
             mime_type=file["mime_type"],
             data=file["file_data"]))
     docs.append(prompt)
-
     responses = chat.send_message(
         docs,
         generation_config=generation_config,

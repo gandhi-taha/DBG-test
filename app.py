@@ -28,13 +28,14 @@ st.write(
 
 def response_generator():
     st.session_state.greetings = False
-    new_docs = []
+    new_docs = None
+
     # Routing for Alfred
-    if st.session_state.files:
-        for file in st.session_state.files:
-            if file["used"] == False:
-                file["used"] = True
-                new_docs.append(file)
+    if st.session_state.file["name"] != "none":
+        if st.session_state.file["used"] == False:
+            print("USE FILE")
+            new_docs = st.session_state.file
+            st.session_state.file["used"] = True
         response = multiturn_generate_content(prompt, new_docs)
 
         for respone in response:
@@ -103,8 +104,9 @@ subheader = st.markdown(
 )
 
 # Initialize File Uploader
-if "files" not in st.session_state:
-    st.session_state.files = []
+if "file" not in st.session_state:
+    st.session_state.file = {}
+    st.session_state.file["name"] = "none"
 if "widget_key" not in st.session_state:
     st.session_state.widget_key = str(randint(1000, 100000000))
 
@@ -128,8 +130,9 @@ with stylable_container(
         }
         """,
 ):
-    uploaded_files = st.sidebar.file_uploader(' ', type=[
-                                              "pdf", "jpeg", "png", "jpg"], accept_multiple_files=True, key=st.session_state.widget_key)
+    uploaded_file = st.sidebar.file_uploader(' ', type=[
+        "pdf", "jpeg", "png", "jpg"],
+        accept_multiple_files=False)
 
 css = '''
 <style>
@@ -152,8 +155,8 @@ css = '''
 
 st.markdown(css, unsafe_allow_html=True)
 
-# if uploaded_files is not None:
-# 	filename, file_extension = os.path.splitext(uploaded_files.name)
+# if uploaded_file is not None:
+# 	filename, file_extension = os.path.splitext(uploaded_file.name)
 
 # 	if (file_extension == ".pdf") is True:
 # 		st.success("Upload successful")
@@ -161,8 +164,8 @@ st.markdown(css, unsafe_allow_html=True)
 # 	else:
 # 		st.error('File type is not PDF')
 
-# if uploaded_files is not None:
-# 	filename, file_extension = os.path.splitext(uploaded_files.name)
+# if uploaded_file is not None:
+# 	filename, file_extension = os.path.splitext(uploaded_file.name)
 # 	if (filename == "Payslip") is True:
 # 		st.error("Sensitive Data is not allowed!")
 # 	else:
@@ -193,9 +196,9 @@ def read_pdf(file):
     return page_text
 
 
-if uploaded_files is not None:
+if uploaded_file is not None:
     valid_files = []
-    for file in uploaded_files:
+    for file in uploaded_file:
 
         # file_text = read_pdf(file) #PyPDF2 us destroying hte file for furhte processing
         file_text = "test"
@@ -220,12 +223,17 @@ if uploaded_files is not None:
 # Accept user input
 if prompt := st.chat_input("Type a message"):
     new_files = ""
-    for uploaded_file in uploaded_files:
-        bytes_data = uploaded_file.read()
-        st.session_state.files.append(
-            {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False, "mime_type": uploaded_file.type})
-        new_files += uploaded_file.name + "; "
-    st.session_state.widget_key = str(randint(1000, 100000000))
+    if uploaded_file is not None:
+        if uploaded_file.name != st.session_state.file["name"]:
+            print("ADD NEW FILE")
+            st.session_state.file["name"] = uploaded_file.name
+            st.session_state.file["mime_type"] = uploaded_file.type
+            bytes_data = uploaded_file.getvalue()
+            st.session_state.file["file_data"] = bytes_data
+            st.session_state.file["used"] = False
+    else:
+        print("REMOVE FILE")
+        st.session_state.file["name"] = "none"
 
     # Add user message to chat history
     st.session_state.messages.append(
@@ -285,7 +293,7 @@ if st.session_state.greetings:
             unsafe_allow_html=True
         )
 
-    if st.session_state.greetings == False :
+    if st.session_state.greetings == False:
         del container
 
 
@@ -293,7 +301,7 @@ if st.session_state is not None:
     remove = st.sidebar.button("Clear Chat")
     if remove:
         st.session_state.messages = []
-        st.session_state.files = []
+        st.session_state.file = {}
+        st.session_state.greetings == True
         st.rerun()
         st.success("Chat Successfully cleared")
-
