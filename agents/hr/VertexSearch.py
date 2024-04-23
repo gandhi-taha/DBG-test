@@ -1,5 +1,5 @@
 from typing import List
-
+import re
 from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1 as discoveryengine
 
@@ -74,8 +74,12 @@ def search_sample(
     response = client.search(request)
     print(response.summary.summary_text)
     citation = " \n --- \n #### Citations: \n"
-    for result in response.results[:3]:
+    for result in response.results[:2]:
         citation += f"> - [{result.document.derived_struct_data['title']}]({result.document.derived_struct_data['link'].replace(' ', '%20')})\n"
 
 
-    return response.summary.summary_with_metadata.summary + citation
+    return format_summary(response.summary.summary_with_metadata.summary) + citation
+
+def format_summary(text:str) -> str:
+    return re.sub("((?<!\\n)\d\.)",r"\n\1", text)
+

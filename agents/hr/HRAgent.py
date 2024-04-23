@@ -47,7 +47,7 @@ def vertexAISearch(question: str, persona: str):
     :return: Response as string.
     """
     print("HR Agents")
-    prompt="return markdown formated text. Don't use code block and do not start with ```"
+    prompt="""Role: You are an intelligent chat bot and your goal is to provide the best answer for a given question. Answer in the same language the question is asked. Make sure to always return the response as markdown in a nice and structured format. Don't use code block and do not start with ```"""
     response = search_sample(
         project_id=PROJECT_ID,
         location=LOCATION_ID,
