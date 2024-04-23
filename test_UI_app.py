@@ -19,7 +19,7 @@ import webbrowser
 
 
 url_Dax = "https://www.investing.com/indices/germany-30"
-url_IIQ = "https://iiq-deutsche-boerse.com/identify/home.jsf"
+url_IIQ = "https://iiq-deutsche-boerse.com"
 url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filter=hr"
 
 
@@ -189,7 +189,7 @@ with stylable_container(
         }
         """,
 ):
-	uploaded_files = st.sidebar.file_uploader(' ',type=["pdf"],accept_multiple_files=True ,key=st.session_state.widget_key)
+	uploaded_files = st.sidebar.file_uploader(' ',type=["pdf", "png", "jpeg","jpg"],accept_multiple_files=True ,key=st.session_state.widget_key)
 
 css = '''
 <style>

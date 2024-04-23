@@ -17,7 +17,7 @@ import re
 import PyPDF2
 
 url_Dax = "https://www.investing.com/indices/germany-30"
-url_IIQ = "https://iiq-deutsche-boerse.com/identify/home.jsf"
+url_IIQ = "https://iiq-deutsche-boerse.com"
 url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filter=hr"
 
 st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png")
