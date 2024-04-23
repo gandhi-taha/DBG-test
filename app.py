@@ -125,7 +125,7 @@ with stylable_container(
         }
         """,
 ):
-	uploaded_files = st.sidebar.file_uploader(' ',type=["pdf"],accept_multiple_files=True ,key=st.session_state.widget_key)
+	uploaded_files = st.sidebar.file_uploader(' ',type=["pdf","jpeg","png","jpg"],accept_multiple_files=True ,key=st.session_state.widget_key)
 
 css = '''
 <style>
