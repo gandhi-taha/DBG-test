@@ -15,12 +15,16 @@ import json
 from random import randint
 import re
 import PyPDF2
+from google.cloud import storage
+from PIL import Image
+import io
 
 url_Dax = "https://www.investing.com/indices/germany-30"
 url_IIQ = "https://iiq-deutsche-boerse.com/identify/home.jsf"
 url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filter=hr"
 
-st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png")
+st.set_page_config(layout="wide", page_title="DBGenAI", page_icon="DBG-Logo.png")
+
 
 def response_generator():
     new_docs = []
@@ -44,58 +48,80 @@ def response_generator():
             time.sleep(0.05)
 
 
+def image_search():
+    orchastrator = Orchastrator()
+    return orchastrator.image_search({"question": prompt})
+
+
+# Updated function to download image from GCS using the full GCS path
+def download_blob(full_gcs_path):
+    """Downloads a blob from the bucket using a full GCS path."""
+    if not full_gcs_path.startswith("gs://"):
+        raise ValueError("Provided path does not look like a GCS path")
+
+    # Parse the GCS path to extract bucket name and blob name
+    parts = full_gcs_path.split("/", 3)
+    bucket_name = parts[2]
+    blob_name = parts[3]
+
+    # Initialize the Google Cloud Storage client and download the blob
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(blob_name)
+    return blob.download_as_bytes()
+
 
 avatars = {
     "user": "static/user.png:",
-    "ai": "/static/chatbot.png",}
+    "ai": "/static/chatbot.png",
+}
 
-# Sidebar content 
+# Sidebar content
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
 sideb = st.sidebar
 subheader = st.sidebar.markdown(
     f'<a href="" style="display: inline-block; margin-left: 40px;margin-top: 50px; padding:5px;  background-color: white; color: #0A07C7; border-color: #0A07C7; text-align: center; text-decoration: none; font-size: 15px; border-radius: 10px;border: solid;">➕ New Conversation</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 
 Bar1 = sideb.write("-------")
 text1 = st.sidebar.markdown(
     f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 12px;">CHAT HISTORY</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 text2 = st.sidebar.markdown(
     f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Annual Report</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 text3 = st.sidebar.markdown(
     f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Learning Opportunity</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 text4 = st.sidebar.markdown(
     f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum A</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 text5 = st.sidebar.markdown(
     f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum B</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 Bar2 = sideb.write("-------")
 selectionbox = sideb.selectbox(
-	"Select a role",
-	("📁 HR Persona", "💻 IT Persona", "📈 Finance Persona"),
-	)
-
+    "Select a role",
+    ("📁 HR Persona", "💻 IT Persona", "📈 Finance Persona"),
+)
 
 
 # Main content
 header = st.markdown(
     f'<a style="display: absolute;margin-top:50px;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: -10px;word-spacing: -10px;">Good afternoon, Lars Bolanca</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 subheader = st.markdown(
     f'<a style="display: absolute; color: #C8C8C8; margin-bottom:20px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;">How can I help you?</a>',
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 # Initialize File Uploader
@@ -112,6 +138,11 @@ if "messages" not in st.session_state:
 
 
 for message in st.session_state.messages:
+    if message["role"] == "image":
+        image_bytes = download_blob(message["content"])
+        image = Image.open(io.BytesIO(image_bytes))
+        st.image(image, width=800)
+        continue
     with st.chat_message(message["role"], avatar=message["avatar"]):
         st.markdown(message["content"])
 
@@ -124,9 +155,11 @@ with stylable_container(
         }
         """,
 ):
-	uploaded_files = st.file_uploader(' ',type=["pdf"],accept_multiple_files=True ,key=st.session_state.widget_key)
+    uploaded_files = st.file_uploader(
+        " ", type=["pdf"], accept_multiple_files=True, key=st.session_state.widget_key
+    )
 
-css = '''
+css = """
 <style>
 [data-testid='stFileUploader'] {
     display: flex;
@@ -143,7 +176,7 @@ css = '''
     margin-right: auto; /* Push uploaded file name to the right */
 }
 </style>
-'''
+"""
 
 st.markdown(css, unsafe_allow_html=True)
 
@@ -163,14 +196,16 @@ st.markdown(css, unsafe_allow_html=True)
 # 	else:
 # 		pass
 
+
 ## Sensitivity check (not done yet)
 def check_sensitivity_label(file_text):
-    #NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
-    
+    # NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
 
-    #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
-    labels = ["Strictly Confidential", "Confidential"]  
-    pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b")
+    # labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
+    labels = ["Strictly Confidential", "Confidential"]
+    pattern = re.compile(
+        r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b"
+    )
     match = pattern.search(file_text)
 
     if match:
@@ -178,24 +213,28 @@ def check_sensitivity_label(file_text):
     else:
         return None
 
+
 def read_pdf(file):
-     pdf_reader = PyPDF2.PdfReader(file)
-     first_page = pdf_reader.pages[0]
-     page_text = first_page.extract_text()
-     return page_text
+    pdf_reader = PyPDF2.PdfReader(file)
+    first_page = pdf_reader.pages[0]
+    page_text = first_page.extract_text()
+    return page_text
+
 
 if uploaded_files is not None:
     valid_files = []
     for file in uploaded_files:
-        
+
         # file_text = read_pdf(file) #PyPDF2 us destroying hte file for furhte processing
         file_text = "test"
         sensitivity_label = check_sensitivity_label(file_text)
         violation_value = -1
         if sensitivity_label == violation_value:
-            st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
+            st.error(
+                f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file."
+            )
         else:
-             valid_files.append(file)
+            valid_files.append(file)
 
 # # Greet user
 # if not st.session_state.messages:
@@ -207,70 +246,85 @@ if uploaded_files is not None:
 # 		# st.session_state.greetings = True
 
 
-
 # Accept user input
 if prompt := st.chat_input("Type a message"):
     new_files = ""
     for uploaded_file in uploaded_files:
         bytes_data = uploaded_file.read()
         st.session_state.files.append(
-            {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False, "mime_type": uploaded_file.type})
+            {
+                "file_name": uploaded_file.name,
+                "file_data": bytes_data,
+                "used": False,
+                "mime_type": uploaded_file.type,
+            }
+        )
         new_files += uploaded_file.name + "; "
     st.session_state.widget_key = str(randint(1000, 100000000))
 
-
-
     # Add user message to chat history
     st.session_state.messages.append(
-        {"role": "human", "avatar":"static/user.png", "content": new_files+"\n"+prompt})
-    
+        {
+            "role": "human",
+            "avatar": "static/user.png",
+            "content": new_files + "\n" + prompt,
+        }
+    )
+
     # Display user message in chat message container
     with st.chat_message("human", avatar="static/user.png"):
-            st.markdown(prompt,
-                        # """
-                        # <style>
-                        #     .st-emotion-cache-1c7y2kd {
-                        #     flex-direction: row-reverse;
-                        #     text-align: right;
-                        # </style>
-                        # """,
-                        unsafe_allow_html=True,
-                        )
+        st.markdown(
+            prompt,
+            # """
+            # <style>
+            #     .st-emotion-cache-1c7y2kd {
+            #     flex-direction: row-reverse;
+            #     text-align: right;
+            # </style>
+            # """,
+            unsafe_allow_html=True,
+        )
 
     # Display assistant response in chat message container
     with st.chat_message("ai", avatar="static/chatbot.png"):
-        with st.spinner('Processing'):
+        with st.spinner("Processing"):
             response = st.write_stream(response_generator())
         # response=response_generator()
         # st.markdown(response)
     # Add assistant response to chat history
     st.session_state.messages.append(
-        {"role": "ai", "avatar":"static/chatbot.png", "content": response})
+        {"role": "ai", "avatar": "static/chatbot.png", "content": response}
+    )
+    image_search_result = image_search()
+    if image_search_result:
+        st.session_state.messages.append(
+            {"role": "image", "content": image_search_result}
+        )
     st.rerun()
 
 col1, col2, col3, col4 = st.columns(4, gap="small")
 
 with col1:
-	
-	st.markdown(
-    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
+        unsafe_allow_html=True,
+    )
 with col2:
-	
-	st.markdown(
-    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
+        unsafe_allow_html=True,
+    )
 with col3:
-	
-	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
+        unsafe_allow_html=True,
+    )
 with col4:
-	
-	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me the DBGs Remote Working Policy</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me the DBGs Remote Working Policy</a>',
+        unsafe_allow_html=True,
+    )

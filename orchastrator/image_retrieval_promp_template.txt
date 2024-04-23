@@ -1,0 +1,9 @@
+Given the user question below, decide whether the user wants to see an image:
+
+Respond wither with `True` or `False`.
+
+<question>
+{question}
+</question>
+
+Decision:
