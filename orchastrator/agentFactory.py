@@ -16,6 +16,12 @@ class AgentFactory():
     Here is the User question regarding the joke:
     {question}"""
 
+    greeting_template = """You are a polite Chat Agent, available for Employees of 'Deutsche Börse'. You try to support and assist whenevery you can with a smile. \
+
+    Here is the User Input:
+    {question}
+    Answer:"""
+
     other_template = """Say that you can not answer the question in a very polite way". \
 
     Here is the question:
@@ -25,13 +31,11 @@ class AgentFactory():
         {
             'name': 'Human Resource',
             'description': 'Responsible for questions about Human Resource, appraisals, Expenses, Holidays, time management, training and other People ops related stuff. Also questions about Employees and their data. Questions about John Smith.',
-            'prompt_template': other_template,
             'agent': HRAgent()
         },
         {
             'name': 'WebSearch',
             'description': 'This Agent is good for general web search questions about stocks like the DAX.',
-            'prompt_template': other_template,
             'agent': WebSearchAgent()
         },
         {
@@ -43,6 +47,11 @@ class AgentFactory():
             'name': 'Joke',
             'description': 'Responsible for providing jokes.',
             'prompt_template': joke_template
+        },
+        {
+            'name': 'Greeting',
+            'description': 'Responsible for answering on greetings, Hello, Hi, How are you, etc. Also about saying Goodbye.',
+            'prompt_template': greeting_template
         },
         {
             'name': 'Other',
