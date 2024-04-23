@@ -61,23 +61,23 @@ subheader = st.sidebar.markdown(
 
 Bar1 = sideb.write("-------")
 text1 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 12px;">CHAT HISTORY</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 12px;">CHAT HISTORY</a>',
     unsafe_allow_html=True
 )
 text2 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Annual Report</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Annual Report</a>',
     unsafe_allow_html=True
 )
 text3 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Learning Opportunity</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Learning Opportunity</a>',
     unsafe_allow_html=True
 )
 text4 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum A</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum A</a>',
     unsafe_allow_html=True
 )
 text5 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum B</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum B</a>',
     unsafe_allow_html=True
 )
 
