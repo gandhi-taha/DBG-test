@@ -27,6 +27,7 @@ st.write(
 
 
 def response_generator():
+    st.session_state.greetings = False
     new_docs = []
     # Routing for Alfred
     if st.session_state.files:
@@ -110,7 +111,7 @@ if "widget_key" not in st.session_state:
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
-    st.session_state.greetings = False
+    st.session_state.greetings = True
 # Display chat messages from history on app rerun
 
 
@@ -255,42 +256,44 @@ if prompt := st.chat_input("Type a message"):
     st.rerun()
 
 
-container = st.container()
-col1, col2, col3, col4 = container.columns(4, gap="small")
+if st.session_state.greetings:
+    container = st.container()
+    col1, col2, col3, col4 = container.columns(4, gap="small")
 
-with col1:
+    with col1:
 
-    st.markdown(
-        f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
-        unsafe_allow_html=True
-    )
-with col2:
+        st.markdown(
+            f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
+            unsafe_allow_html=True
+        )
+    with col2:
 
-    st.markdown(
-        f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
-        unsafe_allow_html=True
-    )
-with col3:
+        st.markdown(
+            f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
+            unsafe_allow_html=True
+        )
+    with col3:
 
-    st.markdown(
-        f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
-        unsafe_allow_html=True
-    )
-with col4:
+        st.markdown(
+            f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
+            unsafe_allow_html=True
+        )
+    with col4:
 
-    st.markdown(
-        f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
-        unsafe_allow_html=True
-    )
+        st.markdown(
+            f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
+            unsafe_allow_html=True
+        )
 
-if st.session_state is not None:
-    del container
+    if st.session_state.greetings == False :
+        del container
 
 
 if st.session_state is not None:
     remove = st.sidebar.button("Clear Chat")
     if remove:
         st.session_state.messages = []
+        st.session_state.files = []
         st.rerun()
         st.success("Chat Successfully cleared")
 
