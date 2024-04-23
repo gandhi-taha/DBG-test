@@ -3,4 +3,4 @@ Format the the following text as to a markdown:
 
 
 don't use code block and do not start with "```" and start with an headline of ##.
-Do not add any reference link but keep the reference nubmers, like [1] in the text as given. format the input text exactly as it is
+keep the citations block as is
