@@ -45,14 +45,15 @@ def search_sample(
                 preamble=prompt
             ),
             model_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelSpec(
-                version="preview",
+                # version="preview",
+                version="text-bison@002/answer_gen/v1"
             ),
         ),
         # For information about snippets, refer to:
         # https://cloud.google.com/generative-ai-app-builder/docs/snippets
         extractive_content_spec=discoveryengine.SearchRequest.ContentSearchSpec.ExtractiveContentSpec(
             return_extractive_segment_score=True,
-            max_extractive_answer_count=2,
+            max_extractive_answer_count=1,
         ),
     )
 
@@ -72,14 +73,16 @@ def search_sample(
     )
 
     response = client.search(request)
-    print(response.summary.summary_text)
-    citation = " \n --- \n #### Citations: \n"
+    print(response.summary.summary_with_metadata.summary)
+    # filter missing responses or any response with Sorry to fallback to a "no info" response
+    if((not response.summary.summary_with_metadata) or ("sorry" in response.summary.summary_with_metadata.summary)):
+        return "I'm sorry, but I **don’t have any information on that** and can not provide you with any answer to this HR question. \n\nIs there anything else I can help you with?"
+    
+    citation = "\n\n--- \n#### Citations: \n"
     for result in response.results[:2]:
         citation += f"> - [{result.document.derived_struct_data['title']}]({result.document.derived_struct_data['link'].replace(' ', '%20')})\n"
-
 
     return format_summary(response.summary.summary_with_metadata.summary) + citation
 
 def format_summary(text:str) -> str:
     return re.sub("((?<!\\n)\d\.)",r"\n\1", text)
-
