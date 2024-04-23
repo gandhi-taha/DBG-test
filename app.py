@@ -20,8 +20,11 @@ url_Dax = "https://www.investing.com/indices/germany-30"
 url_IIQ = "https://iiq-deutsche-boerse.com"
 url_ticket = "https://cockpit.deutsche-boerse.com/sites#ticket_hub-Display?filter=hr"
 
-st.set_page_config(layout='wide', page_title="DBGenAI", page_icon="DBG-Logo.png")
-st.write('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allow_html=True)
+st.set_page_config(layout='wide', page_title="DBGenAI",
+                   page_icon="DBG-Logo.png")
+st.write(
+    '<style>div.block-container{padding-top:2rem;}</style>', unsafe_allow_html=True)
+
 
 def response_generator():
     new_docs = []
@@ -39,18 +42,18 @@ def response_generator():
     # Routing to generall orchastrator
     else:
         orchastrator = Orchastrator()
-        response = orchastrator.route({"question": prompt, "persona": selectionbox})
+        response = orchastrator.route(
+            {"question": prompt, "persona": selectionbox})
         for respone in response:
             yield respone
             time.sleep(0.05)
 
 
-
 avatars = {
     "user": "static/user.png:",
-    "ai": "/static/chatbot.png",}
+    "ai": "/static/chatbot.png", }
 
-# Sidebar content 
+# Sidebar content
 st.sidebar.image("DBG-Logo.png", use_column_width=True)
 sideb = st.sidebar
 subheader = st.sidebar.markdown(
@@ -83,10 +86,9 @@ text5 = st.sidebar.markdown(
 
 Bar2 = sideb.write("-------")
 selectionbox = sideb.selectbox(
-	"Select a role",
-	("📁 HR Persona", "💻 IT Persona", "📈 Finance Persona"),
-	)
-
+    "Select a role",
+    ("💻 IT Persona", "📁 HR Persona", "📈 Finance Persona"),
+)
 
 
 # Main content
@@ -125,7 +127,8 @@ with stylable_container(
         }
         """,
 ):
-	uploaded_files = st.sidebar.file_uploader(' ',type=["pdf","jpeg","png","jpg"],accept_multiple_files=True ,key=st.session_state.widget_key)
+    uploaded_files = st.sidebar.file_uploader(' ', type=[
+                                              "pdf", "jpeg", "png", "jpg"], accept_multiple_files=True, key=st.session_state.widget_key)
 
 css = '''
 <style>
@@ -164,14 +167,16 @@ st.markdown(css, unsafe_allow_html=True)
 # 	else:
 # 		pass
 
-## Sensitivity check (not done yet)
-def check_sensitivity_label(file_text):
-    #NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
-    
+# Sensitivity check (not done yet)
 
-    #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
-    labels = ["Strictly Confidential", "Confidential"]  
-    pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b")
+
+def check_sensitivity_label(file_text):
+    # NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
+
+    # labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
+    labels = ["Strictly Confidential", "Confidential"]
+    pattern = re.compile(r"\b(" + "|".join(re.escape(label)
+                         for label in labels) + r")\b")
     match = pattern.search(file_text)
 
     if match:
@@ -179,24 +184,27 @@ def check_sensitivity_label(file_text):
     else:
         return None
 
+
 def read_pdf(file):
-     pdf_reader = PyPDF2.PdfReader(file)
-     first_page = pdf_reader.pages[0]
-     page_text = first_page.extract_text()
-     return page_text
+    pdf_reader = PyPDF2.PdfReader(file)
+    first_page = pdf_reader.pages[0]
+    page_text = first_page.extract_text()
+    return page_text
+
 
 if uploaded_files is not None:
     valid_files = []
     for file in uploaded_files:
-        
+
         # file_text = read_pdf(file) #PyPDF2 us destroying hte file for furhte processing
         file_text = "test"
         sensitivity_label = check_sensitivity_label(file_text)
         violation_value = -1
         if sensitivity_label == violation_value:
-            st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
+            st.error(
+                f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
         else:
-             valid_files.append(file)
+            valid_files.append(file)
 
 # # Greet user
 # if not st.session_state.messages:
@@ -206,7 +214,6 @@ if uploaded_files is not None:
 # 		#Add Bot response to chat History
 # 		# st.session_state.messages.append(intro)
 # 		# st.session_state.greetings = True
-
 
 
 # Accept user input
@@ -219,24 +226,22 @@ if prompt := st.chat_input("Type a message"):
         new_files += uploaded_file.name + "; "
     st.session_state.widget_key = str(randint(1000, 100000000))
 
-
-
     # Add user message to chat history
     st.session_state.messages.append(
-        {"role": "human", "avatar":"static/user.png", "content": new_files+"\n"+prompt})
-    
+        {"role": "human", "avatar": "static/user.png", "content": new_files+"\n"+prompt})
+
     # Display user message in chat message container
     with st.chat_message("human", avatar="static/user.png"):
-            st.markdown(prompt,
-                        # """
-                        # <style>
-                        #     .st-emotion-cache-1c7y2kd {
-                        #     flex-direction: row-reverse;
-                        #     text-align: right;
-                        # </style>
-                        # """,
-                        unsafe_allow_html=True,
-                        )
+        st.markdown(prompt,
+                    # """
+                    # <style>
+                    #     .st-emotion-cache-1c7y2kd {
+                    #     flex-direction: row-reverse;
+                    #     text-align: right;
+                    # </style>
+                    # """,
+                    unsafe_allow_html=True,
+                    )
 
     # Display assistant response in chat message container
     with st.chat_message("ai", avatar="static/chatbot.png"):
@@ -246,42 +251,46 @@ if prompt := st.chat_input("Type a message"):
         # st.markdown(response)
     # Add assistant response to chat history
     st.session_state.messages.append(
-        {"role": "ai", "avatar":"static/chatbot.png", "content": response})
+        {"role": "ai", "avatar": "static/chatbot.png", "content": response})
     st.rerun()
 
-col1, col2, col3, col4 = st.columns(4, gap="small")
+
+container = st.container()
+col1, col2, col3, col4 = container.columns(4, gap="small")
 
 with col1:
-	
-	st.markdown(
-    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
+        unsafe_allow_html=True
+    )
 with col2:
-	
-	st.markdown(
-    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
+        unsafe_allow_html=True
+    )
 with col3:
-	
-	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
+        unsafe_allow_html=True
+    )
 with col4:
-	
-	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
-    unsafe_allow_html=True
-)
+
+    st.markdown(
+        f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
+        unsafe_allow_html=True
+    )
 
 if st.session_state is not None:
-    del col1,col2,col3,col4
+    del container
 
 
 if st.session_state is not None:
-    remove= st.sidebar.button("Clear Chat")
+    remove = st.sidebar.button("Clear Chat")
     if remove:
         st.session_state.messages = []
+        st.rerun()
         st.success("Chat Successfully cleared")
+
