@@ -1,6 +1,8 @@
 Format the the following text as to a markdown: 
 "{answer}"
 
-Also say that this information was fetch via a Google Web Search Grounding.
 don't use code block and do not start with "```" and start with an headline of ##.
- format the input text exactly as it is and don't use references.
+format the input text exactly as it is and don't use references.
+
+Aways add that this information was fetched via a Google Web Search Grounding by adding: 
+

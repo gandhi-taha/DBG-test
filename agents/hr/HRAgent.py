@@ -47,7 +47,7 @@ def vertexAISearch(question: str, persona: str):
     :return: Response as string.
     """
     print("HR Agents")
-    prompt="Format the the following text as to a markdown. Don't use code block and do not start with ```"
+    prompt="return markdown formated text. Don't use code block and do not start with ```"
     response = search_sample(
         project_id=PROJECT_ID,
         location=LOCATION_ID,
@@ -69,8 +69,9 @@ class HRAgent:
                             temperature=0.5, convert_system_message_to_human=True)
 
         self.chain = (
-            {"answer": RunnableLambda(vertexAISearch)}
-            | promptTemplate
-            | self.llm
-            | StrOutputParser()
+            vertexAISearch
+            # {"answer": RunnableLambda(vertexAISearch)}
+            # | promptTemplate
+            # | self.llm
+            # | StrOutputParser()
         )

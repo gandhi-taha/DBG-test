@@ -42,7 +42,7 @@ def generate_router_chain(llm):
     
     for e in prompt_factory.prompt_infos:
         name = e["name"]
-        agent_descriptions.append(e["name"]+": "+e["description"])
+        agent_descriptions.append(f"'{e['name']}': {e['description']}")
         if "agent" in e:
             # TODO Remote runable
             destination_chains[name]= e['agent'].chain

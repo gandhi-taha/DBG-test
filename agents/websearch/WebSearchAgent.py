@@ -25,7 +25,7 @@ import vertexai.preview.generative_models as generative_models
 
 model = GenerativeModel(
     "gemini-pro",
-    system_instruction=["""Response always in the same language of the userquery."""]
+    system_instruction=["""Response always in the same language of the userquery. Create a Markdown formated respones. Create the response with a suitable headline."""]
 )
 chat = model.start_chat()
 
@@ -33,8 +33,8 @@ tool = Tool.from_google_search_retrieval(grounding.GoogleSearchRetrieval())
 
 generation_config = {
     "max_output_tokens": 3825,
-    "temperature": 0,
-    "top_p": 0.95,
+    "temperature": 0.1,
+    "top_p": 0.2,
 }
 
 safety_settings = {
@@ -56,10 +56,11 @@ def vertexAIWebSearch(question):
         [question],
         generation_config=generation_config,
         safety_settings=safety_settings,
-        tools=[tool]
+        tools=[tool],
     )
     print(responses.candidates[0].content.parts[0].text)
-    return responses.candidates[0].content.parts[0].text
+    source = "\n\n**Source:** This information was fetched via *Google Web Search Grounding*"
+    return responses.candidates[0].content.parts[0].text +source
     
     # for word in response.split():
     #    yield word + " "
@@ -76,8 +77,9 @@ class WebSearchAgent:
                             temperature=0.2, convert_system_message_to_human=True)
         
         self.chain = (
-            {"answer": lambda x: vertexAIWebSearch(x["question"])}
-            | promptTemplate
-            | self.llm
-            | StrOutputParser()
+            vertexAIWebSearch
+            # {"answer": lambda x: vertexAIWebSearch(x["question"])}
+            # | promptTemplate
+            # | self.llm
+            # | StrOutputParser()
         )

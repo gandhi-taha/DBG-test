@@ -6,7 +6,7 @@ import vertexai.preview.generative_models as generative_models
 
 model = GenerativeModel(
     "gemini-1.5-pro-preview-0409",
-    system_instruction=["""Response always in the same language of the userquery."""]
+    system_instruction=["""Response always in the same language of the userquery. Create a Markdown formated respones. Create the response with a suitable headline."""]
 )
 chat = model.start_chat()
 
@@ -14,6 +14,7 @@ tool = Tool.from_google_search_retrieval(grounding.GoogleSearchRetrieval())
 
 
 def multiturn_generate_content(prompt, files):
+    print("Alfred Usecase")
     text_response = []
     docs = []
     for file in files:
