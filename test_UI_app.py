@@ -92,7 +92,7 @@ sideb = st.sidebar
 st.sidebar.write('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
 
 subheader = st.sidebar.markdown(
-    f'<a href="" style="display: inline-block; margin-left: 40px;margin-top: 50px; padding:5px;  background-color: white; color: #0A07C7; border-color: #0A07C7; text-align: center; text-decoration: none; font-size: 15px; border-radius: 10px;border: solid;">➕ New Conversation</a>',
+    f'<a href="" style="display: flex; ;margin-top: 50px; padding:5px; padding-left:50px; padding-right:50px;  background-color: white; color: #0A07C7; border-color: #0A07C7; text-align: center; text-decoration: none; font-size: 15px; border-radius: 10px;border: solid;"> ➕  New Conversation</a>',
     unsafe_allow_html=True
 )
 
@@ -239,37 +239,37 @@ st.markdown(css, unsafe_allow_html=True)
 # 		pass
 
 ## Sensitivity check (not done yet)
-# def check_sensitivity_label(file_text):
-# 	#NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
+def check_sensitivity_label(file_text):
+	#NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
     
 
-#     #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
-#     labels = ["Strictly Confidential", "Confidential"]  
-#     pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b")
-#     match = pattern.search(file_text)
+    #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
+    labels = ["Strictly Confidential", "Confidential"]  
+    pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b")
+    match = pattern.search(file_text)
 
-#     if match:
-#         return -1
-#     else:
-#         return None
+    if match:
+        return -1
+    else:
+        return None
 
-# def read_pdf(file):
-#      pdf_reader = PyPDF2.PdfReader(file)
-#      first_page = pdf_reader.pages[0]
-#      page_text = first_page.extract_text()
-#      return page_text
+def read_pdf(file):
+     pdf_reader = PyPDF2.PdfReader(file)
+     first_page = pdf_reader.pages[0]
+     page_text = first_page.extract_text()
+     return page_text
 
-# if uploaded_files is not None:
-#     valid_files = []
-#     for file in uploaded_files:
+if uploaded_files is not None:
+    valid_files = []
+    for file in uploaded_files:
         
-#         file_text = read_pdf(file)
-#         sensitivity_label = check_sensitivity_label(file_text)
-#         violation_value = -1
-#         if sensitivity_label == violation_value:
-#             st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
-#         else:
-#              valid_files.append(file)
+        file_text = read_pdf(file)
+        sensitivity_label = check_sensitivity_label(file_text)
+        violation_value = -1
+        if sensitivity_label == violation_value:
+            st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
+        else:
+             valid_files.append(file)
 
 
 
@@ -288,41 +288,42 @@ example_prompts_help = [
     "A Remote Working Policy is a set of rules that a company creates to define how employees can work from outside the office",
 ]
 
-# button_cols = st.columns(2)
-# button_cols_2 = st.columns(2)
+button_cols = st.columns(2)
+button_cols_2 = st.columns(2)
 
-with stylable_container(
-    key="button_content",
-    css_styles="""
-        {
-            display: inline-block;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
-            color: #808286;
-            text-align: center
+st.markdown(
+    """
+    <style>
+    .element-container:has(style){
+        display: none;
+    }
+    #button-after {
+        display: none;
+    }
+    .element-container:has(#button-after) {
+        display: none;
+	
+    }
+    .element-container:has(#button-after) + div button {
+        
+	display: inline-block;
+	margin-bottom: 30px;
+	padding: 20px;
+	background-color: white;
+	border-color: #B2B2B2;
+	color: #808286;
+	text-align: center;
+	text-decoration: none;
+	font-size: 18px;
+	border-radius: 10px;
+	border: solid;
         }
-        """,
-):
-    button_cols = st.columns(2)
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-with stylable_container(
-    key="button_content_2",
-    css_styles="""
-        {
-            display: inline-block;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
-            color: #808286;
-            text-align: center
-            padding-bottom
-        }
-        """,
-):
-    button_cols_2 = st.columns(2)
+
 
 button_pressed = ""
 
@@ -335,7 +336,8 @@ elif button_cols_2[0].button(example_prompts[2], help=example_prompts_help[2]):
 elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
     button_pressed = example_prompts[3]
 
-
+if st.session_state is not None:
+    del button_cols, button_cols_2
 
 
 
@@ -343,9 +345,9 @@ elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
 
 
 # Accept user input
-if prompt := st.chat_input("Type a message"):
+if prompt := (st.chat_input("Type a message") or button_pressed):
     new_files = ""
-    for uploaded_file in uploaded_files:       #earlier was taken from uploaded_files directly
+    for uploaded_file in valid_files:       #earlier was taken from uploaded_files directly
         bytes_data = uploaded_file.read()
         st.session_state.files.append(
             {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False})
@@ -426,17 +428,6 @@ if prompt := st.chat_input("Type a message"):
 
 if st.session_state is not None:
     remove= st.sidebar.button("Clear Chat")
-    if uploaded_files is not None: 
-        for file in uploaded_files:
-            if file.name == "This file is SC.pdf":
-                #st.session_state.clear()
-                st.error(f"The file '{file.name}' is labeled Strictly Confidential and cannot be uploaded. Please remove this file to continue.")
-                uploaded_files = []
-                
-
     if remove:
         st.session_state.messages = []
         st.success("Chat Successfully cleared")
-        st.session_state.clear()
-        st.rerun()
-        
