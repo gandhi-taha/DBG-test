@@ -256,7 +256,7 @@ if st.session_state.greetings:
             }
             """,
     ):
-        button_cols = st.columns(2)
+        button_cols = st.columns(2, gap="small")
 
     with stylable_container(
         key="button_content_2",
@@ -273,17 +273,17 @@ if st.session_state.greetings:
             }
             """,
     ):
-        button_cols_2 = st.columns(2)
+        button_cols_2 = st.columns(2, gap="small")
 
 
 
-    if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
+    if button_cols[0].button(example_prompts[0], help=example_prompts_help[0], use_container_width=True):
         button_pressed = example_prompts[0]
-    elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
+    elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1], use_container_width=True):
         button_pressed = example_prompts[1]
-    elif button_cols_2[0].button(example_prompts[2], help=example_prompts_help[2]):
+    elif button_cols_2[0].button(example_prompts[2], help=example_prompts_help[2], use_container_width=True):
         button_pressed = example_prompts[2]
-    elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
+    elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3], use_container_width=True):
         button_pressed = example_prompts[3]
 
 
