@@ -101,30 +101,30 @@ subheader = st.sidebar.markdown(
 
 Bar1 = sideb.write("-------")
 text1 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 12px;">CHAT HISTORY</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 12px;">CHAT HISTORY</a>',
     unsafe_allow_html=True
 )
 text2 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Annual Report</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Annual Report</a>',
     unsafe_allow_html=True
 )
 text3 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Learning Opportunity</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Learning Opportunity</a>',
     unsafe_allow_html=True
 )
 text4 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum A</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Python Script</a>',
     unsafe_allow_html=True
 )
 text5 = st.sidebar.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Lorem Ipsum B</a>',
+    f'<a href="" style="display: inline-block; padding: 8px;color: #808286; text-align: center; text-decoration: none; font-size: 15px;">💬 Investor Presentation</a>',
     unsafe_allow_html=True
 )
 
 Bar2 = sideb.write("-------")
 selectionbox = sideb.selectbox(
 	"Select a role",
-	("📁 HR Persona", "💻 IT Persona", "📈 Finance Persona"),
+	("HR Persona", "General Persona", "Compliance Persona"),
 	)
 
 # Bar2 = sideb.write("-------")
@@ -274,6 +274,76 @@ if uploaded_files is not None:
              valid_files.append(file)
 
 
+
+# Example prompts
+example_prompts = [
+    "How can I access IIQ for my access rights?",
+    "Need to open an HR or Help Desk related ticket?",
+    "Give me the current value of the DAX",
+    "Provide me DBGs Remote Working Policy",
+]
+
+example_prompts_help = [
+    "IIQ access refers to access granted through Sailpoint IdentityIQ, an identity and access management (IAM) tool.",
+    "An HR or Help Desk ticket is like a digital request form for employee issues",
+    "Stock market index: The DAX, or Deutscher Aktienindex, is a stock market index that tracks the performance of the 40 major German companies trading on the Frankfurt Stock Exchange. It's similar to the S&P 500 in the US.",
+    "A Remote Working Policy is a set of rules that a company creates to define how employees can work from outside the office",
+]
+
+# button_cols = st.columns(2)
+# button_cols_2 = st.columns(2)
+
+with stylable_container(
+    key="button_content",
+    css_styles="""
+        {
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #808286;
+            text-align: center
+        }
+        """,
+):
+    button_cols = st.columns(2)
+
+with stylable_container(
+    key="button_content_2",
+    css_styles="""
+        {
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #808286;
+            text-align: center
+            padding-bottom
+        }
+        """,
+):
+    button_cols_2 = st.columns(2)
+
+button_pressed = ""
+
+if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
+    button_pressed = example_prompts[0]
+elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
+    button_pressed = example_prompts[1]
+elif button_cols_2[0].button(example_prompts[2], help=example_prompts_help[2]):
+    button_pressed = example_prompts[2]
+elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
+    button_pressed = example_prompts[3]
+
+
+
+
+
+
+
+
 # Accept user input
 if prompt := st.chat_input("Type a message"):
     new_files = ""
@@ -325,35 +395,35 @@ if prompt := st.chat_input("Type a message"):
 
 
 
-col1, col2, col3, col4 = st.columns(4, gap="small")
+# col1, col2, col3, col4 = st.columns(4, gap="small")
 
-with col1:
+# with col1:
 	
-	st.markdown(
-    f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
-    unsafe_allow_html=True
-)
-with col2:
+# 	st.markdown(
+#     f'<a href="{url_IIQ}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color:  white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">How can I access IIQ for my access rights?</a>',
+#     unsafe_allow_html=True
+# )
+# with col2:
 	
-	st.markdown(
-    f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
-    unsafe_allow_html=True
-)
-with col3:
+# 	st.markdown(
+#     f'<a href="{url_ticket}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Need to open an HR or Help Desk related ticket?</a>',
+#     unsafe_allow_html=True
+# )
+# with col3:
 	
-	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
-    unsafe_allow_html=True
-)
-with col4:
+# 	st.markdown(
+#     f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white;border-color: #B2B2B2; color: #808286; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Give me the current value of the DAX</a>',
+#     unsafe_allow_html=True
+# )
+# with col4:
 	
-	st.markdown(
-    f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
-    unsafe_allow_html=True
-)
+# 	st.markdown(
+#     f'<a href="{url_Dax}" style="display: inline-block; margin-bottom: 30px; padding: 20px; background-color: white; color: #808286; border-color: #B2B2B2; text-align: center; text-decoration: none; font-size: 12px; border-radius: 10px;border: solid;">Provide me DBGs Remote Working Policy</a>',
+#     unsafe_allow_html=True
+# )
 
-if st.session_state is not None:
-    del col1,col2,col3,col4
+# if st.session_state is not None:
+#     del col1,col2,col3,col4
 
 
 if st.session_state is not None:
