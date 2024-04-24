@@ -36,14 +36,19 @@ def get_gcs_location_for_query(query: str):
         queries=[query],
         return_full_datapoint=True,
     )
+    
+    gcs_path = ""
 
-    # Execute the request
-    response = vector_search_client.find_neighbors(request)
+    try:
+        # Execute the request
+        response = vector_search_client.find_neighbors(request)
 
-    # Extract the filename from the response (only first result is used here)
-    filename = response.nearest_neighbors[0].neighbors[0].datapoint.datapoint_id
-    filename = filename.split("'")[1]
+        # Extract the filename from the response (only first result is used here)
+        filename = response.nearest_neighbors[0].neighbors[0].datapoint.datapoint_id
+        filename = filename.split("'")[1]
 
-    gcs_path = f"gs://dbg-images-heikohotz-genai/images/{filename}"
+        gcs_path = f"gs://dbg-images-heikohotz-genai/images/{filename}"
+    except:
+        print("No image found")
 
     return gcs_path
