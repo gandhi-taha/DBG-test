@@ -85,4 +85,5 @@ def search_sample(
     return format_summary(response.summary.summary_with_metadata.summary) + citation
 
 def format_summary(text:str) -> str:
-    return re.sub("((?<!\\n)\d\.)",r"\n\1", text)
+    return text 
+# re.sub("((?<!\\n)\d\.)",r"\n\1", text)

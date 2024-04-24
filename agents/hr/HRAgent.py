@@ -51,7 +51,7 @@ def vertexAISearch(question: str, persona: str):
     response = search_sample(
         project_id=PROJECT_ID,
         location=LOCATION_ID,
-        engine_id=PRIVATE_SEARCH_ENGINE_ID if persona == "📁 HR Persona" else SEARCH_ENGINE_ID,
+        engine_id=PRIVATE_SEARCH_ENGINE_ID if persona == "HR Persona" else SEARCH_ENGINE_ID,
         search_query=question,
         prompt=prompt
         )

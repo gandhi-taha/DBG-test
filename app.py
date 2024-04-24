@@ -89,7 +89,7 @@ text5 = st.sidebar.markdown(
 Bar2 = sideb.write("-------")
 selectionbox = sideb.selectbox(
 	"Select a role",
-	("HR Persona", "General Persona", "Compliance Persona"),
+	("General Persona", "HR Persona",  "Compliance Persona"),
 	)
 
 
@@ -224,7 +224,7 @@ if uploaded_file is not None:
 example_prompts = [
     "How can I access IIQ for my access rights?",
     "Need to open an HR or Help Desk related ticket?",
-    "Give me the current value of the DAX",
+    "How is the DAX doing today?",
     "Provide me DBGs Remote Working Policy",
 ]
 
@@ -237,50 +237,51 @@ example_prompts_help = [
 
 # button_cols = st.columns(2)
 # button_cols_2 = st.columns(2)
-
-with stylable_container(
-    key="button_content",
-    css_styles="""
-        {
-            display: inline-block;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
-            color: #808286;
-            text-align: center
-        }
-        """,
-):
-    button_cols = st.columns(2)
-
-with stylable_container(
-    key="button_content_2",
-    css_styles="""
-        {
-            display: inline-block;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
-            color: #808286;
-            text-align: center
-            padding-bottom
-        }
-        """,
-):
-    button_cols_2 = st.columns(2)
-
 button_pressed = ""
+if st.session_state.greetings:
+    with stylable_container(
+        key="button_content",
+        css_styles="""
+            {
+                display: inline-block;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                color: #808286;
+                text-align: center
+            }
+            """,
+    ):
+        button_cols = st.columns(2)
 
-if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
-    button_pressed = example_prompts[0]
-elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
-    button_pressed = example_prompts[1]
-elif button_cols_2[0].button(example_prompts[2], help=example_prompts_help[2]):
-    button_pressed = example_prompts[2]
-elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
-    button_pressed = example_prompts[3]
+    with stylable_container(
+        key="button_content_2",
+        css_styles="""
+            {
+                display: inline-block;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                color: #808286;
+                text-align: center
+                padding-bottom
+            }
+            """,
+    ):
+        button_cols_2 = st.columns(2)
+
+
+
+    if button_cols[0].button(example_prompts[0], help=example_prompts_help[0]):
+        button_pressed = example_prompts[0]
+    elif button_cols[1].button(example_prompts[1], help=example_prompts_help[1]):
+        button_pressed = example_prompts[1]
+    elif button_cols_2[0].button(example_prompts[2], help=example_prompts_help[2]):
+        button_pressed = example_prompts[2]
+    elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
+        button_pressed = example_prompts[3]
 
 
 
@@ -288,7 +289,7 @@ elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
 
 
 # Accept user input
-if prompt := st.chat_input("Type a message"):
+if prompt := st.chat_input("Type a message") or button_pressed:
     new_files = ""
     if uploaded_file is not None:
         if uploaded_file.name != st.session_state.file["name"]:
@@ -326,6 +327,7 @@ if prompt := st.chat_input("Type a message"):
         # response=response_generator()
         # st.markdown(response)
     # Add assistant response to chat history
+    print(response)
     st.session_state.messages.append(
         {"role": "ai", "avatar": "static/chatbot.png", "content": response})
     st.rerun()
@@ -360,8 +362,6 @@ if prompt := st.chat_input("Type a message"):
 #             unsafe_allow_html=True
 #         )
 
-#     if st.session_state.greetings == False:
-#         del container
 
 
 if st.session_state is not None:
