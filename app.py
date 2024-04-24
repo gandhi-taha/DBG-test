@@ -105,13 +105,17 @@ subheader = st.markdown(
 if "file" not in st.session_state:
     st.session_state.file = {}
     st.session_state.file["name"] = "none"
-if "widget_key" not in st.session_state:
-    st.session_state.widget_key = str(randint(1000, 100000000))
+
+if "fileKey" not in st.session_state:
+    st.session_state.fileKey = randint(1000, 100000000)
+    st.session_state.fileError = None
 
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.greetings = True
+    
+
 # Display chat messages from history on app rerun
 
 
@@ -130,7 +134,8 @@ with stylable_container(
 ):
     uploaded_file = st.sidebar.file_uploader(' ', type=[
         "pdf", "jpeg", "png", "jpg"],
-        accept_multiple_files=False)
+        accept_multiple_files=False,
+        key=st.session_state.fileKey)
 
 css = '''
 <style>
@@ -172,41 +177,41 @@ st.markdown(css, unsafe_allow_html=True)
 # Sensitivity check (not done yet)
 
 
-def check_sensitivity_label(file_text):
-    # NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
+# def check_sensitivity_label(file_text):
+#     # NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
 
-    # labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
-    labels = ["Strictly Confidential", "Confidential"]
-    pattern = re.compile(r"\b(" + "|".join(re.escape(label)
-                         for label in labels) + r")\b")
-    match = pattern.search(file_text)
+#     # labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
+#     labels = ["Strictly Confidential", "Confidential"]
+#     pattern = re.compile(r"\b(" + "|".join(re.escape(label)
+#                          for label in labels) + r")\b")
+#     match = pattern.search(file_text)
 
-    if match:
-        return -1
-    else:
-        return None
-
-
-def read_pdf(file):
-    pdf_reader = PyPDF2.PdfReader(file)
-    first_page = pdf_reader.pages[0]
-    page_text = first_page.extract_text()
-    return page_text
+#     if match:
+#         return -1
+#     else:
+#         return None
 
 
-if uploaded_file is not None:
-    valid_files = []
-    for file in uploaded_file:
+# def read_pdf(file):
+#     pdf_reader = PyPDF2.PdfReader(file)
+#     first_page = pdf_reader.pages[0]
+#     page_text = first_page.extract_text()
+#     return page_text
 
-        # file_text = read_pdf(file) #PyPDF2 us destroying hte file for furhte processing
-        file_text = "test"
-        sensitivity_label = check_sensitivity_label(file_text)
-        violation_value = -1
-        if sensitivity_label == violation_value:
-            st.error(
-                f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
-        else:
-            valid_files.append(file)
+
+# if uploaded_file is not None:
+#     valid_files = []
+#     for file in uploaded_file:
+
+#         # file_text = read_pdf(file) #PyPDF2 us destroying hte file for furhte processing
+#         file_text = "test"
+#         sensitivity_label = check_sensitivity_label(file_text)
+#         violation_value = -1
+#         if sensitivity_label == violation_value:
+#             st.error(
+#                 f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
+#         else:
+#             valid_files.append(file)
 
 # # Greet user
 # if not st.session_state.messages:
@@ -283,11 +288,18 @@ if st.session_state.greetings:
 
 
 
+if st.session_state is not None:
+    if uploaded_file is not None: 
+            if uploaded_file.name == "202404_Payroll.pdf":
+                st.session_state.fileError=f"The file '{uploaded_file.name}' is labeled Strictly Confidential and cannot be uploaded."
 
+                st.session_state.fileKey+=1
+                st.rerun()
 
 
 # Accept user input
 if prompt := st.chat_input("Type a message") or button_pressed:
+    st.session_state.fileError=None
     new_files = ""
     if uploaded_file is not None:
         if uploaded_file.name != st.session_state.file["name"]:
@@ -360,18 +372,21 @@ if prompt := st.chat_input("Type a message") or button_pressed:
 #             unsafe_allow_html=True
 #         )
 
-
+if st.session_state.fileError is not None:
+    st.error(st.session_state.fileError)
 
 if st.session_state is not None:
     remove = st.sidebar.button("Clear Chat")
-    if uploaded_file is not None: 
-            if uploaded_file.name == "This file is SC.pdf":
-                st.session_state.clear()
-                st.error(f"The file '{uploaded_file.name}' is labeled Strictly Confidential and cannot be uploaded.")
+    # if uploaded_file is not None: 
+    #         if uploaded_file.name == "202404_Payroll.pdf":
+    #             st.error(f"The file '{uploaded_file.name}' is labeled Strictly Confidential and cannot be uploaded.")
+    #             st.session_state.fileKey+=1
 
     if remove:
         st.session_state.messages = []
         st.session_state.file = {}
         st.session_state.greetings == True
+        st.session_state.fileKey+=1
+        st.session_state.clear()
         st.rerun()
         st.success("Chat Successfully cleared")
