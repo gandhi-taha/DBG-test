@@ -93,12 +93,12 @@ selectionbox = sideb.selectbox(
 
 # Main content
 header = st.markdown(
-    f'<a style="display: absolute;margin-top:50px;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: -10px;word-spacing: -10px;">Good afternoon, Lars Bolanca</a>',
+    f'<a style="display: absolute;margin-top:50px;background: linear-gradient(90deg, #10D1DE, #1071DE, #ff00f3, #0033ff, #ff00c4, #ff0000); background-size: 400%;-webkit-background-clip: text; -webkit-text-fill-color: transparent;text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: -5px;word-spacing: -5px;">Good afternoon, Lars Bolanca</a>',
     unsafe_allow_html=True
 )
 subheader = st.markdown(
-    f'<a style="display: absolute; color: #C8C8C8; margin-bottom:20px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;">How can I help you?</a>',
-    unsafe_allow_html=True
+   f'<a style="display: absolute; color: #C8C8C8; margin-bottom:20px; text-align: center; text-decoration: none; font-family: sans-serif; font-size: 50px;Letter-spacing: -5px;word-spacing: -5px;">How can I help you?</a>',
+   unsafe_allow_html=True
 )
 
 # Initialize File Uploader
