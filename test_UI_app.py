@@ -13,8 +13,6 @@ from typing import Literal
 from dataclasses import dataclass
 import json
 from random import randint
-import re
-import PyPDF2
 import webbrowser
 
 
@@ -241,37 +239,37 @@ st.markdown(css, unsafe_allow_html=True)
 # 		pass
 
 ## Sensitivity check (not done yet)
-def check_sensitivity_label(file_text):
-	#NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
+# def check_sensitivity_label(file_text):
+# 	#NOTE: this is actually just a hack to find a stringmatch in the text of the 1st page. False positives if keywords (case-sensitive) are present anywhere else on the first page.
     
 
-    #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
-    labels = ["Strictly Confidential", "Confidential"]  
-    pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b")
-    match = pattern.search(file_text)
+#     #labels = ["Strictly Confidential", "Confidential", "Internal", "Public"]
+#     labels = ["Strictly Confidential", "Confidential"]  
+#     pattern = re.compile(r"\b(" + "|".join(re.escape(label) for label in labels) + r")\b")
+#     match = pattern.search(file_text)
 
-    if match:
-        return -1
-    else:
-        return None
+#     if match:
+#         return -1
+#     else:
+#         return None
 
-def read_pdf(file):
-     pdf_reader = PyPDF2.PdfReader(file)
-     first_page = pdf_reader.pages[0]
-     page_text = first_page.extract_text()
-     return page_text
+# def read_pdf(file):
+#      pdf_reader = PyPDF2.PdfReader(file)
+#      first_page = pdf_reader.pages[0]
+#      page_text = first_page.extract_text()
+#      return page_text
 
-if uploaded_files is not None:
-    valid_files = []
-    for file in uploaded_files:
+# if uploaded_files is not None:
+#     valid_files = []
+#     for file in uploaded_files:
         
-        file_text = read_pdf(file)
-        sensitivity_label = check_sensitivity_label(file_text)
-        violation_value = -1
-        if sensitivity_label == violation_value:
-            st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
-        else:
-             valid_files.append(file)
+#         file_text = read_pdf(file)
+#         sensitivity_label = check_sensitivity_label(file_text)
+#         violation_value = -1
+#         if sensitivity_label == violation_value:
+#             st.error(f"Upload failed for file - '{file.name}'. it is either marked as 'Confidential' or 'Strictly Confidential'and will NOT be processed. Please remove this file and try uploading another file.")
+#         else:
+#              valid_files.append(file)
 
 
 
@@ -347,7 +345,7 @@ elif button_cols_2[1].button(example_prompts[3], help=example_prompts_help[3]):
 # Accept user input
 if prompt := st.chat_input("Type a message"):
     new_files = ""
-    for uploaded_file in valid_files:       #earlier was taken from uploaded_files directly
+    for uploaded_file in uploaded_files:       #earlier was taken from uploaded_files directly
         bytes_data = uploaded_file.read()
         st.session_state.files.append(
             {"file_name": uploaded_file.name, "file_data": bytes_data, "used": False})
@@ -428,6 +426,17 @@ if prompt := st.chat_input("Type a message"):
 
 if st.session_state is not None:
     remove= st.sidebar.button("Clear Chat")
+    if uploaded_files is not None: 
+        for file in uploaded_files:
+            if file.name == "This file is SC.pdf":
+                #st.session_state.clear()
+                st.error(f"The file '{file.name}' is labeled Strictly Confidential and cannot be uploaded. Please remove this file to continue.")
+                uploaded_files = []
+                
+
     if remove:
         st.session_state.messages = []
         st.success("Chat Successfully cleared")
+        st.session_state.clear()
+        st.rerun()
+        
