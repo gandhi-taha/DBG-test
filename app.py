@@ -13,8 +13,6 @@ from typing import Literal
 from dataclasses import dataclass
 import json
 from random import randint
-import re
-import PyPDF2
 
 url_Dax = "https://www.investing.com/indices/germany-30"
 url_IIQ = "https://iiq-deutsche-boerse.com"
@@ -366,6 +364,11 @@ if prompt := st.chat_input("Type a message") or button_pressed:
 
 if st.session_state is not None:
     remove = st.sidebar.button("Clear Chat")
+    if uploaded_file is not None: 
+            if uploaded_file.name == "This file is SC.pdf":
+                st.session_state.clear()
+                st.error(f"The file '{uploaded_file.name}' is labeled Strictly Confidential and cannot be uploaded.")
+
     if remove:
         st.session_state.messages = []
         st.session_state.file = {}
